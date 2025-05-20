@@ -1,0 +1,85 @@
+﻿@inherits LayoutComponentBase
+<div class="page">
+    @* <div class="sidebar">
+        <NavMenu />
+    </div> *@
+
+    <main>
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="container">
+                <div class="column">
+                    <div class="div-2">
+                        <div class="nav-link-dropdown" onclick="window.location.href='/'">
+                            <div class="text-wrapper-5">Home</div>
+                        </div>
+                    </div>
+                    <div class="column-2">
+                        <button class="button-2" onclick="window.location.href='/login'">Log In</button>
+                        <button class="button-3" onclick="window.location.href='/register'">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+<style>
+    /* Container navbar */
+    .navbar {
+        background-color: #007bff; /* Màu xanh dương */
+        padding: 10px 20px;
+        color: white;
+    }
+
+    /* Giữ container rộng và căn giữa */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Dùng flex để chia 2 bên */
+    .column {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Phần Home */
+    .div-2 .nav-link-dropdown {
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    /* Phần button Log In, Sign Up */
+    .column-2 button {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        padding: 8px 15px;
+        margin-left: 10px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        /* Hover button */
+        .column-2 button:hover {
+            background-color: white;
+            color: #007bff;
+        }
+
+   
+
+    .column-2 button {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    }
+</style>

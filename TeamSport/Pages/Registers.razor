@@ -1,0 +1,280 @@
+﻿@page "/register"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
+<div class="logo-top-right">
+    <a href="/">
+        <img src="/img/logo 1.png" alt="Logo" />
+    </a>
+</div>
+<div class="register-container">
+    <div class="left-side"></div>
+    <div class="right-side">
+        <div>
+            <div class="form-title">Đăng ký</div>
+            <div class="form-subtitle">Cùng chúng tôi đăng ký tài khoản của bạn</div>
+        </div>
+
+        <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+            <div class="input-group">
+                <InputText class="input-name" placeholder="Họ" @bind-Value="user.LastName" />
+                <InputText class="input-name" placeholder="Tên" @bind-Value="user.FirstName" />
+            </div>
+
+            <div class="input-group">
+                <InputText class="input-name" placeholder="Email" @bind-Value="user.Email" />
+                <InputText class="input-name" placeholder="Số điện thoại" @bind-Value="user.PhoneNumber" />
+            </div>
+
+            <InputText class="single-input" placeholder="Mật khẩu" type="password" @bind-Value="user.Password" />
+            <InputText class="single-input" placeholder="Xác nhận mật khẩu" type="password" @bind-Value="confirmPassword" />
+
+            <div class="terms-container">
+                <InputCheckbox @bind-Value="agreedTerms" />
+                <span>
+                    Tôi đồng ý với tất cả các <span class="highlight-red">Điều khoản</span> và <span class="highlight-red">Chính sách bảo mật</span>
+                </span>
+            </div>
+
+            <button type="submit" class="btn-register" disabled="@IsLoading">
+                @(IsLoading ? "Đang xử lý..." : "Đăng ký")
+            </button>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p style="color:red;">@ErrorMessage</p>
+        }
+
+        <div class="login-link">
+            Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private UserModel user = new();
+    private string confirmPassword = "";
+    private bool agreedTerms = false;
+    private bool IsLoading = false;
+    private string ErrorMessage;
+
+    private async Task HandleValidSubmit()
+    {
+        ErrorMessage = null;
+
+        if (!agreedTerms)
+        {
+            ErrorMessage = "Bạn phải đồng ý với điều khoản và chính sách bảo mật.";
+            return;
+        }
+        if (user.Password != confirmPassword)
+        {
+            ErrorMessage = "Mật khẩu xác nhận không khớp.";
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            var requestData = new
+            {
+                lastName = user.LastName,
+                firstName = user.FirstName,
+                email = user.Email,
+                phoneNumber = user.PhoneNumber,
+                password = user.Password
+            };
+
+            // Gọi API đăng ký (thay bằng URL API thực tế)
+            var response = await Http.PostAsJsonAsync("https://api.example.com/api/auth/register", requestData);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<RegisterResponse>();
+
+                if (!string.IsNullOrEmpty(result?.Token))
+                {
+                    // Lưu token JWT vào localStorage
+                    await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", result.Token);
+
+                    // Điều hướng về trang chủ hoặc trang khác
+                    Navigation.NavigateTo("/");
+                }
+                else
+                {
+                    ErrorMessage = "Không nhận được token từ server.";
+                }
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                ErrorMessage = $"Đăng ký thất bại: {content}";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Lỗi kết nối: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public class UserModel
+    {
+        public string LastName { get; set; } = "";
+        public string FirstName { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string PhoneNumber { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+
+    public class RegisterResponse
+    {
+        public string Token { get; set; }
+    }
+}
+
+<style>
+    .register-container {
+        display: flex;
+        flex-direction: row;
+        height: 300px;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        flex-wrap: wrap;
+        max-width: 1400px;
+        margin: 0 auto;
+        /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+        border-radius: 8px;
+        overflow: hidden;
+        gap: 100px; /* Thêm dòng này để tạo khoảng cách */
+    }
+
+
+    .left-side {
+        flex: 1 1 300px;
+        min-height: 300px;
+        background: url('/img/5.png') no-repeat center center;
+        background-size: cover;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+
+    .right-side {
+        flex: 1 1 400px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* background-color: #f5f5f5; */
+    }
+
+    .form-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-subtitle {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .input-name {
+        flex: 1;
+        min-width: 0;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .single-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+    }
+
+    .terms-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+        .terms-container span {
+            margin-left: 0.5rem;
+        }
+
+    .btn-register {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 0.85rem;
+        font-size: 1.1rem;
+        width: 100%;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-register:hover {
+            background-color: #0056b3;
+        }
+
+    .login-link {
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .login-link a:hover {
+                text-decoration: underline;
+            }
+
+    .highlight-red {
+        color: red;
+        font-weight: normal; /* hoặc bold nếu bạn muốn */
+        display: inline; /* đảm bảo không xuống dòng hoặc giãn dòng */
+    }
+
+    .logo-top-right {
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        z-index: 999;
+    }
+
+        .logo-top-right img {
+            height: 50px;
+            width: auto;
+            cursor: pointer;
+        }
+
+
+</style>
+
