@@ -1,0 +1,215 @@
+﻿@page "/find"
+@inject IJSRuntime JS
+@using Microsoft.AspNetCore.SignalR.Client
+
+<div class="container-wrapper">
+    <!-- Filter Sidebar -->
+    <div class="filter-sidebar">
+        <h3>Bộ lọc</h3>
+        <label><input type="checkbox" @bind="filterFootball" /> Bóng đá</label><br />
+        <label><input type="checkbox" @bind="filterBadminton" /> Cầu lông</label><br />
+        <label><input type="checkbox" @bind="filterPickleball" /> Pickleball</label><br />
+
+        <div class="search-section">
+            <input type="text" placeholder="Tìm theo tên..." @bind="searchName" @bind:event="oninput" />
+        </div>
+    </div>
+
+    <!-- Opponent Cards -->
+    <div class="card-container">
+        <div class="card-list">
+            @if (FilteredOpponents.Any())
+            {
+                @foreach (var o in FilteredOpponents)
+                {
+                    <div class="opponent-card">
+                        <img src="@GetAvatarUrl(o)" alt="Avatar" class="avatar" />
+                        <h3>@o.FullName</h3>
+                        <p><strong>Giới tính:</strong> @o.Gender</p>
+                        <p><strong>Tuổi:</strong> @o.Age</p>
+                        <p><strong>Bộ môn:</strong> @o.Sport</p>
+                        <p><strong>Trình độ:</strong> @o.Level</p>
+                        <button @onclick="() => SelectOpponent(o)">Chọn</button>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="no-results">Không tìm thấy đối thủ phù hợp.</p>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private HubConnection? hubConnection;
+
+    private bool filterFootball = true;
+    private bool filterBadminton = true;
+    private bool filterPickleball = true;
+    private string searchName = "";
+
+    private Opponent? selectedOpponent;
+    private List<Opponent> opponents = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Lấy JWT token từ localStorage
+        var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+        // Kết nối SignalR với token
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://your-api-url/hubs/opponent", options =>
+            {
+                options.AccessTokenProvider = () => Task.FromResult(token);
+            })
+            .WithAutomaticReconnect()
+            .Build();
+
+        // Lắng nghe sự kiện từ server
+        hubConnection.On<List<Opponent>>("ReceiveOpponents", (data) =>
+        {
+            opponents = data;
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+        await hubConnection.InvokeAsync("RequestOpponents"); // Gửi yêu cầu lấy đối thủ
+    }
+
+    IEnumerable<Opponent> FilteredOpponents => opponents
+        .Where(o =>
+            ((filterFootball && o.Sport == "Bóng đá") ||
+             (filterBadminton && o.Sport == "Cầu lông") ||
+             (filterPickleball && o.Sport == "Pickleball"))
+             && (string.IsNullOrWhiteSpace(searchName) || o.FullName.Contains(searchName, StringComparison.OrdinalIgnoreCase))
+        );
+
+    void SelectOpponent(Opponent o)
+    {
+        selectedOpponent = o;
+    }
+
+    string GetAvatarUrl(Opponent o)
+    {
+        return o.Gender == "Nữ"
+            ? "https://i.pravatar.cc/100?img=47"
+            : "https://i.pravatar.cc/100?img=12";
+    }
+
+    public class Opponent
+    {
+        public string FullName { get; set; } = "";
+        public string Gender { get; set; } = "";
+        public int Age { get; set; }
+        public string Sport { get; set; } = "";
+        public string Level { get; set; } = "";
+    }
+}
+
+
+<style>
+    
+
+    .no-results {
+        color: #666;
+        font-size: 1.2rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .container-wrapper {
+        display: flex;
+        gap: 30px;
+        margin-top: 20px;
+
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url('/img/find.png'); /* Đường dẫn đúng */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+
+    /* Cột bên trái: Filter */
+    .filter-sidebar {
+        width: 250px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        font-family: 'Segoe UI', sans-serif;
+        align-self: flex-start;
+    }
+
+    /* Cột bên phải: Card */
+    .card-list {
+        display: flex;
+        gap: 20px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    /* Thẻ người dùng */
+    .opponent-card {
+        width: 220px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        flex-grow:1;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        text-align: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+        .opponent-card img.avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .opponent-card h3 {
+            font-size: 1.1rem;
+            margin: 5px 0 10px 0;
+        }
+
+        .opponent-card p {
+            margin: 3px 0;
+            font-size: 0.9rem;
+        }
+
+        .opponent-card button {
+            margin-top: 10px;
+            padding: 6px 12px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .opponent-card button:hover {
+                background-color: #0056b3;
+            }
+
+    /* Khu vực chọn đối thủ */
+    .selected-info {
+        margin-top: 30px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f1f1f1;
+        max-width: 600px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+</style>

@@ -1,18 +1,28 @@
-﻿.frame {
-    background-color: #ffffff;
+﻿body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+
+
+.frame {
+    background-color: transparent;
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
 }
 
+
     .frame .div {
-        background-color: #ffffff;
+        background-color: transparent;
         overflow: hidden;
         width: 1440px;
         height: 3481px;
         position: relative;
-        background-image: url('/img/11.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -1192,133 +1202,5 @@
 
 
 
-@page "/home"
-@using Microsoft.AspNetCore.Components.Forms
 
-<!-- CSS -->
-<link href="css/globals.css" rel="stylesheet" />
-<link href="css/styleguide.css" rel="stylesheet" />
-<link href="css/style.css" rel="stylesheet" />
 
-<div class="frame">
-
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="container">
-            <div class="column">
-                <div class="logo">
-                    <img src="img/2.png" alt="Logo" class="logo-img" />
-                    <span class="logo-text">TEAM MATCH SPORT</span>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn nav-btn" @onclick="() => NavigateTo('/login')">Đăng nhập</button>
-                    <button class="btn nav-btn primary" @onclick="() => NavigateTo('/register')">Đăng ký</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <img src="img/1.png" class="hero-img" />
-        <div class="hero-content">
-            <h1>Tham gia cộng đồng thể thao</h1>
-            <p>Kết nối với những người có cùng đam mê và tìm đối thủ phù hợp với bạn!</p>
-            <button class="btn primary" @onclick="() => NavigateTo('/register')">Đăng ký ngay</button>
-        </div>
-    </div>
-
-    <!-- About Section -->
-    <div class="about">
-        <h2>Về chúng tôi</h2>
-        <p class="about-desc">
-            Dự án này sẽ giúp cộng đồng người chơi thể thao dễ dàng truy cập thông tin, tìm kiếm đối tác, tạo sự kiện và nâng cao tinh thần thể thao.
-        </p>
-        <div class="about-images">
-            <img src="img/image.png" alt="Sport 1" />
-            <img src="img/image 3.png" alt="Sport 2" />
-        </div>
-        <button class="btn secondary">Tìm hiểu thêm</button>
-    </div>
-
-    <!-- Feedback Section -->
-    <div class="feedback">
-        <h2>Đánh giá của người dùng</h2>
-        <div class="feedback-list">
-            @for (int i = 1; i <= 3; i++)
-            {
-                <div class="feedback-item">
-                    <div class="user">Người dùng @i</div>
-                    <div class="stars">
-                        @for (int j = 0; j < 5; j++)
-                        {
-                            <img src="img/Sao.png" alt="Star" class="star" />
-                        }
-                    </div>
-                    <p class="review">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vulputate.
-                    </p>
-                </div>
-            }
-        </div>
-    </div>
-
-    <!-- Call to Action -->
-    <div class="cta">
-        <h2>Tham gia cùng chúng tôi</h2>
-        <button class="btn primary" @onclick="() => NavigateTo('/register')">Bắt đầu ngay</button>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <img src="img/frame-1.svg" class="footer-logo" />
-                <span class="footer-brand">Ddsgnr</span>
-                <div class="sports">
-                    <div>Bóng đá</div>
-                    <div>Bóng rổ</div>
-                    <div>Bóng chuyền</div>
-                    <div>Cầu lông</div>
-                    <div>Pickleball</div>
-                </div>
-            </div>
-
-            <div class="footer-subscribe">
-                <h3>Subscribe</h3>
-                <div class="subscribe-form">
-                    <InputText class="text-input" @bind-Value="email" placeholder="Nhập email của bạn" />
-                    <button class="btn secondary" @onclick="Subscribe">Subscribe</button>
-                </div>
-                <p class="policy-note">
-                    Bằng cách đăng ký, bạn đồng ý với <span class="highlight">Chính sách quyền riêng tư</span>.
-                </p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Cookies Settings</a>
-            </div>
-            <p class="copyright">© 2025 Ddsgnr. All rights reserved.</p>
-        </div>
-    </div>
-</div>
-
-@code {
-    private string email;
-
-    private void Subscribe()
-    {
-        Console.WriteLine($"Subscribed with: {email}");
-    }
-
-    private void NavigateTo(string url)
-    {
-        NavigationManager.NavigateTo(url);
-    }
-
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
-}

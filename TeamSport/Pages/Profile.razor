@@ -1,0 +1,218 @@
+﻿@page "/profile"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+<link href="css/ab.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
+
+
+<div class="v250_195"  >
+    <div class="wrapper">
+        <div class="v250_211">
+            <div class="v250_212">
+                <div class="v250_213">
+                    <div class="v250_214"></div>
+                    <div class="v250_215">
+                        @foreach (var sport in Sports)
+                        {
+                            <span class="@($"v250_21{6 + Sports.IndexOf(sport)}")">@sport</span>
+                        }
+                    </div>
+                </div>
+                <div class="v250_221">
+                    <span class="v250_222">Subscribe</span>
+                    <div class="v250_223">
+                        <input class="name" placeholder="Your name" />
+                        <input class="name" placeholder="Your email" />
+                    </div>
+                    <span class="v250_226">By subscribing you agree to with our Privacy Policy</span>
+                </div>
+            </div>
+
+            <div class="v250_227">
+                <div class="v250_228"></div>
+                <div class="v250_229">
+                    <div class="v250_230">
+                        <span class="v250_231">Privacy Policy</span>
+                        <span class="v250_232">Terms of Service</span>
+                        <span class="v250_233">Cookies Settings</span>
+                    </div>
+                    <span class="v250_234">2025 Ddsgnr. All right reserved.</span>
+                </div>
+            </div>
+        </div>
+
+
+        @if (!string.IsNullOrEmpty(ImageUrl))
+        {
+            <img src="@ImageUrl" alt="Ảnh đại diện" class="profile-image" />
+        }
+        else
+        {
+            <img src="/img/v250_245.png" alt="Ảnh đại diện mặc định" class="profile-image" />
+        }
+
+
+        <div class="v250_247"><span class="v250_248">Thông tin cơ bản</span></div>
+        <div class="v250_249"><span class="v250_250">Thông tin liên hệ</span></div>
+        <div class="v254_326"><span class="v254_327">Trận đấu đã ghép cặp</span></div>
+
+        <div class="v250_251">
+            <span class="v250_252">Họ và tên: @TeamName</span>
+            <div class="v250_271">
+                <div class="v250_272"></div>
+                <div class="v250_273"></div>
+            </div>
+        </div>
+
+        <div class="v250_253">
+            <span class="v250_254">Địa chỉ: @Address</span>
+            <div class="v250_309">
+                <div class="v250_310"></div>
+                <div class="v250_311"></div>
+            </div>
+        </div>
+
+        <div class="v250_255">
+            <span class="v250_256">Giới tính: @Gender</span>
+            <div class="v250_300">
+                <div class="v250_301"></div>
+                <div class="v250_302"></div>
+            </div>
+        </div>
+
+        <div class="v250_257">
+            <span class="v250_258">Số điện thoại: @PhoneNumber</span>
+            <div class="v250_312">
+                <div class="v250_313"></div>
+                <div class="v250_314"></div>
+            </div>
+        </div>
+
+        <div class="v250_259">
+            <span class="v250_260">E-mail: @Email</span>
+            <div class="v250_315">
+                <div class="v250_316"></div>
+                <div class="v250_317"></div>
+            </div>
+        </div>
+
+        <div class="v250_261">
+            <span class="v250_262">Trình độ: @Level</span>
+            <div class="v250_306">
+                <div class="v250_307"></div>
+                <div class="v250_308"></div>
+            </div>
+        </div>
+
+        @if (Matches == null || Matches.Count == 0)
+        {
+            <p></p>
+        }
+        else
+        {
+            @foreach (var match in Matches)
+            {
+                <div class="v254_328">
+                    <span class="v254_329">@match.Info</span>
+                    <span class="v254_333">@match.Status</span>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="v250_263">
+        <span class="v250_264">Bộ môn: @string.Join(", ", Sports)</span>
+        <div class="v250_303">
+            <div class="v250_304"></div>
+            <div class="v250_305"></div>
+        </div>
+    </div>
+
+    <div class="v250_265"><span class="v250_266">Lời giới thiệu</span></div>
+    <span class="v250_267">@Introduction</span>
+</div>
+
+@code {
+    private string TeamName;
+    private string Address;
+    private string Gender;
+    private string PhoneNumber;
+    private string Email;
+    private string Level;
+    private string Introduction;
+    private string ImageUrl;
+    private List<string> Sports = new List<string>();
+    private List<Match> Matches = new List<Match>();
+
+    private HubConnection hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+        var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("api/teaminfo");
+
+        if (teamInfo != null)
+        {
+            UpdateTeamInfo(teamInfo);
+        }
+
+      
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/teamhub"))  // URL backend hub
+            .Build();
+
+       
+        hubConnection.On<TeamInfo>("ReceiveTeamInfoUpdate", (updatedTeamInfo) =>
+        {
+            UpdateTeamInfo(updatedTeamInfo);
+            StateHasChanged();  // Refresh UI ngay
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private void UpdateTeamInfo(TeamInfo teamInfo)
+    {
+        TeamName = teamInfo.TeamName;
+        Address = teamInfo.Address;
+        Gender = teamInfo.Gender;
+        PhoneNumber = teamInfo.PhoneNumber;
+        Email = teamInfo.Email;
+        Level = teamInfo.Level;
+        Introduction = teamInfo.Introduction;
+        ImageUrl = teamInfo.ImageUrl;  // nếu server có trả ImageUrl
+        Sports = teamInfo.Sports ?? new List<string>();
+        Matches = teamInfo.Matches ?? new List<Match>();
+    }
+
+    public class TeamInfo
+    {
+        public string TeamName { get; set; }
+        public string Address { get; set; }
+        public string Gender { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string Level { get; set; }
+        public string Introduction { get; set; }
+        public string ImageUrl { get; set; }
+        public List<string> Sports { get; set; }
+        public List<Match> Matches { get; set; }
+    }
+
+    public class Match
+    {
+        public string Info { get; set; }
+        public string Status { get; set; }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

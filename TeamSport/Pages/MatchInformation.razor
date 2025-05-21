@@ -1,0 +1,151 @@
+﻿@page "/match-info"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+<link href="css/bc.css" rel="stylesheet" />
+
+<div class="page-wrapper">
+    <div class="background-image">
+        <div class="page-container">
+            @if (matchInfo != null)
+            {
+                <div class="match-info">
+                    <p><strong>Bộ môn thi đấu:</strong> @matchInfo.Sport</p>
+                    <p><strong>Giới tính:</strong> @matchInfo.Gender</p>
+                    <p><strong>Số lượng người:</strong> @matchInfo.Players</p>
+                    <p><strong>Sân:</strong> @matchInfo.Field</p>
+                </div>
+            }
+            else
+            {
+                <p>Đang tải...</p>
+            }
+            <div class="match-actions">
+                <button class="btn-confirm">Xác nhận</button>
+                <button class="btn-cancel">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    private HubConnection? hubConnection;
+    private MatchInfoModel? matchInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await JS.InvokeAsync<string>("localStorage.getItem", "access_token");
+
+        if (string.IsNullOrEmpty(token))
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("https://your-api.com/matchhub"), options =>
+            {
+                options.AccessTokenProvider = () => Task.FromResult(token);
+            })
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<MatchInfoModel>("ReceiveMatchUpdate", (info) =>
+        {
+            matchInfo = info;
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+    public class MatchInfoModel
+    {
+        public string Sport { get; set; } = "";
+        public string Gender { get; set; } = "";
+        public int Players { get; set; }
+        public string Field { get; set; } = "";
+    }
+}
+
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .page-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .background-image {
+        background-image: url('./img/anhnen.png'); /* Đường dẫn ảnh nền */
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 71%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .page-container {
+        background-color: rgba(255, 255, 255, 0.9); /* Mờ nhẹ để nhìn thấy hình nền */
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+    }
+
+    .match-info h2 {
+        margin-bottom: 20px;
+    }
+
+    .match-info p {
+        font-size: 16px;
+        margin: 8px 0;
+    }
+
+    .match-actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .btn-confirm, .btn-cancel {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .btn-confirm {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn-cancel {
+        background-color: #f44336;
+        color: white;
+    }
+
+</style>

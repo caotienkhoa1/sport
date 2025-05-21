@@ -164,32 +164,26 @@
         // URL backend xử lý OAuth
         string oauthUrl = $"https://api.example.com/api/auth/oauth/{provider}";
 
-        // Mở popup login OAuth
+        // Mở popup login OAuth và xử lý token từ server
         var jsCode = $@"
-            var width = 600, height = 700;
-            var left = (screen.width / 2) - (width / 2);
-            var top = (screen.height / 2) - (height / 2);
-            var popup = window.open('{oauthUrl}', 'OAuthLogin', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left);
-            window.addEventListener('message', function(event) {{
-                if(event.origin === '{new Uri(oauthUrl).GetLeftPart(UriPartial.Authority)}' && event.data?.token) {{
-                    DotNet.invokeMethodAsync('{typeof(Program).Assembly.GetName().Name}', 'ReceiveOAuthToken', event.data.token);
-                    popup.close();
-                }}
-            }});
-        ";
+        var width = 600, height = 700;
+        var left = (screen.width / 2) - (width / 2);
+        var top = (screen.height / 2) - (height / 2);
+        var popup = window.open('{oauthUrl}', 'OAuthLogin', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left);
+        window.addEventListener('message', function(event) {{
+            if(event.origin === '{new Uri(oauthUrl).GetLeftPart(UriPartial.Authority)}' && event.data?.token) {{
+                localStorage.setItem('jwtToken', event.data.token);
+                popup.close();
+                window.location.href = '/';
+            }}
+        }});
+    ";
 
         await JS.InvokeVoidAsync("eval", jsCode);
     }
 
-    [JSInvokable]
-    public static async Task ReceiveOAuthToken(string token)
-    {
-        // Lưu token vào localStorage hoặc làm gì đó
-        // Vì đây là static method, bạn có thể trigger event hoặc callback về instance của component nếu muốn
-        Console.WriteLine($"Received token: {token}");
 
-        // Ví dụ: gọi API lưu token, chuyển trang, v.v...
-    }
+   
 }
 
 
