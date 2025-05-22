@@ -1,29 +1,27 @@
 ﻿@inherits LayoutComponentBase
 <link rel="stylesheet" href="https://kit.fontawesome.com/1165876da6.css" crossorigin="anonymous" />
+
 <div class="page">
     <main>
         <!-- Navbar -->
+        <!-- Navbar -->
         <div class="navbar">
-            <div class="container">
-                <div class="navbar-inner">
-                    <!-- Logo + Home -->
-                    <div class="nav-left-group">
-                        <div class="logo-top-left">
-                            <a href="/"><img src="/img/logo 1.png" alt="Logo" /></a>
-                        </div>
-                        <div class="nav-left" onclick="window.location.href='/'">
-                            <div class="text-wrapper-5">Home</div>
-                        </div>
-                    </div>
-
-                    <!-- Log In / Sign Up -->
-                    <div class="nav-right">
-                        <button class="button-2" onclick="window.location.href='/login'">Log In</button>
-                        <button class="button-3" onclick="window.location.href='/register'">Sign Up</button>
-                    </div>
+            <!-- Đặt trực tiếp nav-left và nav-right vào navbar -->
+            <div class="nav-left-wrapper">
+                <div class="logo-top-left">
+                    <a href="/"><img src="/img/logo 1.png" alt="Logo" /></a>
+                </div>
+                <div class="nav-left" onclick="window.location.href='/'">
+                    <div class="text-wrapper-5">Home</div>
                 </div>
             </div>
+
+            <div class="nav-right">
+                <button class="button-2" onclick="window.location.href='/login'">Log In</button>
+                <button class="button-3" onclick="window.location.href='/register'">Sign Up</button>
+            </div>
         </div>
+
 
         <!-- Nội dung -->
         <article class="content px-4">
@@ -34,30 +32,23 @@
         <footer>
             <div class="container">
                 <div class="footer-content">
+                    
+                    <ul class="list">
+                        <li><a href="">Bóng Đá</a></li>
+                        <li><a href="">Bóng rổ</a></li>
+                        <li><a href="">Bóng chuyền</a></li>
+                        <li><a href="">Cầu lông</a></li>
+                        <li><a href="">Pickleball</a></li>
+                    </ul>
+                </div>
+                <div class="footer-content">
                     <h3>Contact Us</h3>
                     <p>Email: Info@example.com</p>
                     <p>Phone: +121 56556 565556</p>
                     <p>Address: Your Address 123 street</p>
                 </div>
-                <div class="footer-content">
-                    <h3>Quick Links</h3>
-                    <ul class="list">
-                        <li><a href="">Home</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Services</a></li>
-                        <li><a href="">Products</a></li>
-                        <li><a href="">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-content">
-                    <h3>Follow Us</h3>
-                    <ul class="social-icons">
-                        <li><a href=""><i class="fab fa-facebook"></i></a></li>
-                        <li><a href=""><i class="fab fa-twitter"></i></a></li>
-                        <li><a href=""><i class="fab fa-instagram"></i></a></li>
-                        <li><a href=""><i class="fab fa-linkedin"></i></a></li>
-                    </ul>
-                </div>
+        
+              
             </div>
             <div class="bottom-bar">
                 <p>&copy; 2023 your company. All rights reserved</p>
@@ -66,29 +57,38 @@
     </main>
 </div>
 
-
 <style>
     .navbar {
         background-color: white;
-        padding: 10px 20px;
+        padding: 10px 0;
         color: #333;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         position: relative;
         z-index: 999;
     }
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-    }
-
     .navbar-inner {
         display: flex;
         align-items: center;
-        position: relative; /* để phần tử con dùng relative, absolute đúng */
+        justify-content: space-between;
         height: 60px;
         padding: 0 20px;
+        
+    }
+
+    .nav-left-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        margin-left: 90px;
+    }
+
+
+
+    .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        width: 100%;
     }
 
     .nav-left-group {
@@ -111,11 +111,12 @@
     }
 
     .nav-right {
-       
         display: flex;
         gap: 10px;
-        align-items:center;
-        justify-content:space-between;
+        align-items: center;
+        justify-content: space-between;
+        margin-right:90px;
+
     }
 
         .nav-right button {
@@ -133,108 +134,98 @@
                 background-color: #007bff;
                 color: white;
             }
-</style>
-<style>
+
     footer {
         background: #343434;
         padding-top: 50px;
         color: white;
+        font-family: Arial, sans-serif;
     }
 
+        footer .container {
+            width: 100%;
+            max-width: 100%; /* Hoặc bỏ hoàn toàn */
+            margin: 0;
+            padding: 0 20px; /* Giữ một chút padding nếu không muốn dính mép */
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+        }
+
+
     .footer-content {
-        width: 33.3%;
+        flex: 1 1 45%;
+        margin-bottom: 20px;
     }
 
         .footer-content h3 {
-            font-size: 28px;
+            font-size: 24px;
             margin-bottom: 15px;
             text-align: center;
         }
 
         .footer-content p {
-            width: 190px;
-            margin: auto;
-            padding: 7px;
-        }
-
-        .footer-content ul {
             text-align: center;
+            margin: 5px 0;
+            font-size: 14px;
         }
 
-    .list {
-        padding: 0;
-    }
-
-        .list li {
-            list-style-type: none;
-            padding: 7px;
-            position: relative;
+        .footer-content ul.list {
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            padding-left: 0; /* Loại bỏ đẩy lệch */
+            margin: 30px 0 0 0; /* Giữ margin-top nếu cần */
+            list-style: none;
+            flex-wrap: wrap;
         }
 
-            .list li::before {
-                content: '';
-                position: absolute;
-                transform: translate(-50%,-50%);
-                left: 50%;
-                top: 100%;
-                width: 0;
-                height: 2px;
-                background: #f18930;
-                transition-duration: .5s;
+
+
+            .footer-content ul.list li {
+                position: relative;
+                padding: 5px 0;
             }
 
-            .list li:hover::before {
-                width: 70px;
-            }
+                /* Hiệu ứng gạch chân khi hover */
+                .footer-content ul.list li::before {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 0;
+                    height: 2px;
+                    background-color: #f18930;
+                    transition: width 0.3s ease-in-out;
+                }
 
-    .social-icons {
-        text-align: center;
-        padding: 0;
-    }
+                .footer-content ul.list li:hover::before {
+                    width: 70%;
+                }
 
-        .social-icons li {
-            display: inline-block;
-            text-align: center;
-            padding: 5px;
-        }
+                .footer-content ul.list li a {
+                    color: white;
+                    text-decoration: none;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
 
-        .social-icons i {
-            color: white;
-            font-size: 25px;
-        }
-
-    a {
-        text-decoration: none;
-        color: white;
-    }
-
-        a:hover {
-            color: #f18930;
-        }
-
-    .social-icons i:hover {
-        color: #f18930;
-    }
+                    .footer-content ul.list li a:hover {
+                        color: #f18930;
+                    }
 
     .bottom-bar {
         background: #f18930;
         text-align: center;
         padding: 10px 0;
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
         .bottom-bar p {
             color: #343434;
             margin: 0;
-            font-size: 16px;
-            padding: 7px;
+            font-size: 14px;
         }
 
-    .container {
-        width: 1140px;
-        margin: auto;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
 </style>

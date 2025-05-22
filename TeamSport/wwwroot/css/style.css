@@ -1,8 +1,37 @@
-﻿body, html {
-    height: 100%;
+﻿html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    width:100%;
+}
+
+.fullscreen-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1; /* Đặt ảnh nền phía sau nội dung */
+}
+
+.fullscreen-bi {
+    position: absolute; /* hoặc absolute, nhưng fixed để luôn đứng yên khi cuộn */
+    top: 0;
+    left: 0;
+    width: 100vw; /* full chiều ngang viewport */
+    height: 653px; /* chiều cao bạn muốn */
+    overflow: hidden;
+    z-index: -1; /* đẩy ảnh ra phía sau */
+    margin: 0;
+    padding: 0;
+}
+
+.fullscreen-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 
@@ -11,10 +40,15 @@
 .frame {
     background-color: transparent;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start; /* hoặc center nếu bạn muốn căn giữa theo chiều dọc */
+    align-items: center;
     width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
 
 
     .frame .div {
@@ -36,17 +70,18 @@
         left: 0;
     }
 
-    .frame .nh {
-        width: 100%;
-        height: 653px;
-        object-fit: cover;
-    }
+.nh {
+    position: relative;
+    width: 100%; /* hoặc 100% nếu muốn phụ thuộc */
+    height: 90%; /* chiều cao giống ảnh */
+}
 
 .pxfuel {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    z-index: -1;
 }
 
     .frame .text-wrapper {
@@ -492,20 +527,16 @@
     }
 
 .frame .div-4 {
-    position: relative; /* quan trọng */
-    width: 100%;
-    max-width: 1441px;
-    height: 653px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-/*    gap: 20px;*/
-    padding: 25px 10px;
-    background-color: #00b430;
-    border-radius: 10px;
+    position: relative;
+    width: 100vw; /* Chiếm toàn bộ chiều ngang */
+    height: 100vh; /* Chiếm toàn bộ chiều cao nếu cần */
+    margin: 0; /* Xoá margin */
+    padding: 0; /* Xoá padding */
+    border-radius: 0; /* Xoá bo góc */
+    background-color: transparent; /* Không cần nền */
     overflow: hidden;
 }
+
 
 .text-wrapper-10 {
     display: inline-block;
