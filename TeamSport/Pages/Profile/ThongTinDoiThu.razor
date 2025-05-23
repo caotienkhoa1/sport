@@ -1,14 +1,15 @@
-﻿@page "/matchsport"
+﻿@page "/matchsport/{OpponentId:int}"
 @using Microsoft.AspNetCore.SignalR.Client
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
+
 <link href="css/ab.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 
 <div class="v250_195">
     <div class="wrapper">
-       
+
         @if (!string.IsNullOrEmpty(ImageUrl))
         {
             <img src="@ImageUrl" alt="Ảnh đại diện" class="profile-image" />
@@ -19,7 +20,6 @@
         }
 
         <div class="v250_247"><span class="v250_248">Thông tin cơ bản</span></div>
-       
         <div class="v250_249"><span class="v250_250">Thông tin liên hệ</span></div>
         <div class="v250_2499">
             <span class="v250_2500">Thông tin trận đấu</span>
@@ -36,35 +36,48 @@
             else
             {
                 <div class="match-buttons">
-                    <button class="btn btn-primary mt-2" @onclick="RequestMatch">Yêu cầu ghép cặp</button>
+                    <button class="btn btn-primary mt-2" @onclick="ShowConfirmPopup">Yêu cầu ghép cặp</button>
                 </div>
             }
         </div>
 
-
-        <div class="v250_251"><span class="v250_252">Họ và tên: @TeamName</span></div>
+        <div class="v250_251"><span class="v250_252">Đội trưởng: @CaptainName</span></div>
         <div class="v250_253"><span class="v250_254">Địa chỉ: @Address</span></div>
         <div class="v250_captain">
-            <span class="v250_captain_label">Đội trưởng: @CaptainName</span>
+            <span class="v250_captain_label">Tên Nhóm:@TeamName </span>
         </div>
+        <div class="team-member-count"><span class="team-member-count-text">Số lượng thành viên: @MemberCount</span></div>
+
         <div class="v250_255"><span class="v250_256">Giới tính: @Gender</span></div>
         <div class="v250_257"><span class="v250_258">Số điện thoại: @PhoneNumber</span></div>
         <div class="v250_259"><span class="v250_260">E-mail: @Email</span></div>
         <div class="v250_261"><span class="v250_262">Trình độ: @Level</span></div>
-
         <div class="v250_263">
             <span class="v250_264">Bộ môn: @string.Join(", ", Sports)</span>
         </div>
-
         <div class="v250_265"><span class="v250_266">Lời giới thiệu</span></div>
         <span class="v250_267">@Introduction</span>
 
-        <!-- Trận đấu -->
-        
     </div>
 </div>
 
+@if (showConfirmPopup)
+{
+    <div class="modal-overlay" @onclick="CloseConfirmPopup">
+        <div class="modal" @onclick:stopPropagation="true">
+            <h3>Xác nhận yêu cầu ghép cặp</h3>
+            <p>Vui lòng bấm xác nhận nút để xác nhận yêu cầu của bạn</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" @onclick="CloseConfirmPopup">Hủy</button>
+                <button class="btn btn-success" @onclick="ConfirmMatchRequest">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
+    [Parameter]
+    public int OpponentId { get; set; }
     private string TeamName;
     private string Address;
     private string Gender;
@@ -74,20 +87,30 @@
     private string Introduction;
     private string ImageUrl;
     private string CaptainName;
+    private int MemberCount;
     private List<string> Sports = new List<string>();
     private Match? CurrentMatch;
 
     private HubConnection hubConnection;
+    private bool showConfirmPopup = false; // Biến điều khiển popup
+    private OpponentInfo? CurrentOpponent;
 
     protected override async Task OnInitializedAsync()
     {
+        // Load thông tin đội chính
         var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("api/teaminfo");
-
         if (teamInfo != null)
         {
             UpdateTeamInfo(teamInfo);
         }
 
+        // Load thông tin đối thủ nếu OpponentId > 0
+        if (OpponentId > 0)
+        {
+            CurrentOpponent = await Http.GetFromJsonAsync<OpponentInfo>($"api/opponent/{OpponentId}");
+        }
+
+        // Khởi tạo hub connection và đăng ký sự kiện
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri("/teamhub"))
             .Build();
@@ -113,13 +136,24 @@
         ImageUrl = teamInfo.ImageUrl;
         Sports = teamInfo.Sports ?? new List<string>();
         CaptainName = string.IsNullOrEmpty(teamInfo.CaptainName) ? "Chưa có đội trưởng" : teamInfo.CaptainName;
-
-        // Hiển thị trận đầu tiên nếu có
+        MemberCount = teamInfo.MemberCount;
         CurrentMatch = teamInfo.Matches?.FirstOrDefault();
     }
 
-    private async Task RequestMatch()
+    private void ShowConfirmPopup()
     {
+        showConfirmPopup = true;
+    }
+
+    private void CloseConfirmPopup()
+    {
+        showConfirmPopup = false;
+    }
+
+    private async Task ConfirmMatchRequest()
+    {
+        showConfirmPopup = false;
+
         var token = await JS.InvokeAsync<string>("localStorage.getItem", "jwtToken");
 
         if (!string.IsNullOrEmpty(token))
@@ -180,15 +214,24 @@
         public string Level { get; set; }
         public string Introduction { get; set; }
         public string ImageUrl { get; set; }
-        public string CaptainName{ get; set; }
+        public string CaptainName { get; set; }
         public List<string> Sports { get; set; }
         public List<Match> Matches { get; set; }
+        public int MemberCount { get; set; }
     }
 
     public class Match
     {
-        public string Info { get; set; } // Tên sân
+        public string Info { get; set; }
         public string Status { get; set; }
+    }
+    public class OpponentInfo
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public string? ImageUrl { get; set; }
+        
     }
 
     public async ValueTask DisposeAsync()
@@ -199,11 +242,78 @@
         }
     }
 }
+
 <style>
+    /* Popup modal background */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* Popup modal box */
+    .modal {
+        background: white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        max-width: 400px;
+        text-align: center;
+    }
+
+        .modal h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: space-around;
+    }
+
+        .modal-buttons .btn {
+            min-width: 100px;
+            font-weight: bold;
+        }
+
+    .btn-danger {
+        background-color: #d9534f;
+        border-color: #d43f3a;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+            border-color: #ac2925;
+        }
+
+    .btn-success {
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background-color: #449d44;
+            border-color: #398439;
+        }
+
+    /* Các style bạn có sẵn */
     .match-buttons {
         margin-top: 10px;
         margin-left: 650px;
-
     }
 
     .v250_captain {
@@ -213,8 +323,8 @@
         margin: 10px;
         opacity: 1;
         position: absolute;
-        top: 272px; /* Bạn có thể chỉnh lại vị trí top sao cho không chồng lên phần khác */
-        left: 1330px; /* giữ nguyên hoặc chỉnh theo layout */
+        top: 272px;
+        left: 1330px;
         border-radius: 20px;
         overflow: hidden;
     }
@@ -230,4 +340,27 @@
         text-align: left;
     }
 
-    </style>
+    .team-member-count {
+        width: 396px;
+        height: 40px;
+        background: rgba(245,245,245,1);
+        margin: 10px;
+        opacity: 1;
+        position: absolute;
+        top: 325px;
+        left: 1330px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .team-member-count-text {
+        width: 229px;
+        color: rgba(0,0,0,1);
+        position: absolute;
+        top: 8px;
+        left: 10px;
+        font-size: 16px;
+        opacity: 1;
+        text-align: left;
+    }
+</style>

@@ -10,39 +10,7 @@
 
 <div class="v250_195"  >
     <div class="wrapper">
-        <div class="v250_211">
-            <div class="v250_212">
-                <div class="v250_213">
-                    <div class="v250_214"></div>
-                    <div class="v250_215">
-                        @foreach (var sport in Sports)
-                        {
-                            <span class="@($"v250_21{6 + Sports.IndexOf(sport)}")">@sport</span>
-                        }
-                    </div>
-                </div>
-                <div class="v250_221">
-                    <span class="v250_222">Subscribe</span>
-                    <div class="v250_223">
-                        <input class="name" placeholder="Your name" />
-                        <input class="name" placeholder="Your email" />
-                    </div>
-                    <span class="v250_226">By subscribing you agree to with our Privacy Policy</span>
-                </div>
-            </div>
-
-            <div class="v250_227">
-                <div class="v250_228"></div>
-                <div class="v250_229">
-                    <div class="v250_230">
-                        <span class="v250_231">Privacy Policy</span>
-                        <span class="v250_232">Terms of Service</span>
-                        <span class="v250_233">Cookies Settings</span>
-                    </div>
-                    <span class="v250_234">2025 Ddsgnr. All right reserved.</span>
-                </div>
-            </div>
-        </div>
+        
 
 
         @if (!string.IsNullOrEmpty(ImageUrl))
@@ -74,7 +42,7 @@
                 <div class="v250_311"></div>
             </div>
         </div>
-
+      
         <div class="v250_255">
             <span class="v250_256">Giới tính: @Gender</span>
             <div class="v250_300">
@@ -144,6 +112,7 @@
     private string Level;
     private string Introduction;
     private string ImageUrl;
+    private string CaptainName;
     private List<string> Sports = new List<string>();
     private List<Match> Matches = new List<Match>();
 
@@ -183,7 +152,7 @@
         Email = teamInfo.Email;
         Level = teamInfo.Level;
         Introduction = teamInfo.Introduction;
-        ImageUrl = teamInfo.ImageUrl;  // nếu server có trả ImageUrl
+        ImageUrl = teamInfo.ImageUrl;  
         Sports = teamInfo.Sports ?? new List<string>();
         Matches = teamInfo.Matches ?? new List<Match>();
     }

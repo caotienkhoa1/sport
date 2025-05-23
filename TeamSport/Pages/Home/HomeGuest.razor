@@ -1,7 +1,7 @@
 ﻿@page "/homeguest"
 @using Microsoft.AspNetCore.Components.Forms
 
-<!-- CSS files - bạn cần import các file này vào wwwroot và khai báo trong _Host.cshtml hoặc index.html -->
+
 <link href="./css/globals.css" rel="stylesheet" />
 <link href="./css/styleguide.css" rel="stylesheet" />
 <link href="./css/style.css" rel="stylesheet" />
@@ -101,7 +101,7 @@
 
     private void Subscribe()
     {
-        // Xử lý đăng ký nhận email ở đây
+        
         Console.WriteLine($"Subscribed with: {email}");
     }
 }
@@ -144,8 +144,9 @@
         z-index: -1;
     }
 
-   
-
- 
-
+    .homeguest-page input.email-input {
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
 </style>

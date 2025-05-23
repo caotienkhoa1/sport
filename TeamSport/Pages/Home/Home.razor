@@ -1,4 +1,5 @@
 ﻿@page "/home"
+@inject IJSRuntime JS
 @inject NavigationManager NavigationManager
 
 <div class="home-background">
@@ -17,7 +18,29 @@
 @code {
     void NavigateToCreate() => NavigationManager.NavigateTo("/create-post");
     void NavigateToFind() => NavigationManager.NavigateTo("/find");
+
 }
+@code {
+    private bool isLoggedIn = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+        if (string.IsNullOrEmpty(token))
+        {
+            // Nếu không có token => chuyển về trang đăng nhập
+            NavigationManager.NavigateTo("/login", forceLoad: true);
+        }
+        else
+        {
+            isLoggedIn = true;
+        }
+    }
+}
+
+
+
 <style>
     html, body {
         height: 100%;

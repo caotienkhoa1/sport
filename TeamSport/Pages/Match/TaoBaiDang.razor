@@ -11,12 +11,12 @@
 
         @if (!string.IsNullOrEmpty(ErrorMessage))
         {
-            <div class="error-msg" style="color:red;margin-bottom:10px;">@ErrorMessage</div>
+            <div class="error-msg">@ErrorMessage</div>
         }
 
         @if (!string.IsNullOrEmpty(NotificationMessage))
         {
-            <div class="notification-msg" style="color:green;margin-bottom:10px;">@NotificationMessage</div>
+            <div class="notification-msg">@NotificationMessage</div>
         }
 
         <EditForm Model="@postModel" OnValidSubmit="HandleValidSubmit">
@@ -26,24 +26,24 @@
             <fieldset>
                 <legend>Thông tin đội bóng</legend>
 
-                <div>
-                    <label for="teamName">Tên đội bóng</label>
-                    <input id="teamName" @bind="postModel.TeamName" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Họ và Tên :</span>
+                    <input class="form-input-box" @bind="postModel.FullName" required />
                 </div>
 
-                <div>
-                    <label for="teamLeader">Trưởng đội</label>
-                    <input id="teamLeader" @bind="postModel.TeamLeader" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Trưởng đội :</span>
+                    <input class="form-input-box" @bind="postModel.TeamLeader" required />
                 </div>
 
-                <div>
-                    <label for="memberCount">Số thành viên</label>
-                    <input id="memberCount" type="number" min="1" @bind="postModel.MemberCount" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Số thành viên :</span>
+                    <input type="number" class="form-input-box" min="1" @bind="postModel.MemberCount" required />
                 </div>
 
-                <div>
-                    <label for="gender">Giới tính</label>
-                    <select id="gender" @bind="postModel.Gender" required>
+                <div class="form-field-box">
+                    <span class="form-label-box">Giới tính :</span>
+                    <select class="form-input-box" @bind="postModel.Gender" required>
                         <option value="">-- Chọn giới tính --</option>
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
@@ -51,9 +51,9 @@
                     </select>
                 </div>
 
-                <div>
-                    <label for="sport">Loại thể thao</label>
-                    <select id="sport" @bind="postModel.Sport" required>
+                <div class="form-field-box">
+                    <span class="form-label-box">Thể thao :</span>
+                    <select class="form-input-box" @bind="postModel.Sport" required>
                         <option value="">-- Chọn thể thao --</option>
                         <option value="Bóng đá">Bóng đá</option>
                         <option value="Bóng rổ">Bóng rổ</option>
@@ -61,9 +61,9 @@
                     </select>
                 </div>
 
-                <div>
-                    <label for="level">Cấp độ</label>
-                    <select id="level" @bind="postModel.Level" required>
+                <div class="form-field-box">
+                    <span class="form-label-box">Cấp độ :</span>
+                    <select class="form-input-box" @bind="postModel.Level" required>
                         <option value="">-- Chọn cấp độ --</option>
                         <option value="Mới">Mới</option>
                         <option value="Trung bình">Trung bình</option>
@@ -75,43 +75,43 @@
             <fieldset>
                 <legend>Liên hệ</legend>
 
-                <div>
-                    <label for="address">Địa chỉ</label>
-                    <input id="address" @bind="postModel.Address" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Địa chỉ :</span>
+                    <input class="form-input-box" @bind="postModel.Address" required />
                 </div>
 
-                <div>
-                    <label for="phone">Số điện thoại</label>
-                    <input id="phone" type="tel" @bind="postModel.Phone" required pattern="[0-9]{10,11}" />
+                <div class="form-field-box">
+                    <span class="form-label-box">Số điện thoại :</span>
+                    <input class="form-input-box" type="tel" @bind="postModel.Phone" pattern="[0-9]{10,11}" required />
                 </div>
 
-                <div>
-                    <label for="email">Email</label>
-                    <input id="email" type="email" @bind="postModel.Email" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Email :</span>
+                    <input class="form-input-box" type="email" @bind="postModel.Email" required />
                 </div>
             </fieldset>
 
             <fieldset>
-                <legend>Sân bãi và thời gian</legend>
+                <legend>Sân bãi và thời gian </legend>
 
-                <div>
-                    <label for="field">Sân</label>
-                    <input id="field" @bind="postModel.Field" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Sân :</span>
+                    <input class="form-input-box" @bind="postModel.Field" required />
                 </div>
 
-                <div>
-                    <label for="time">Thời gian</label>
-                    <input id="time" type="datetime-local" @bind="postModel.Time" required />
+                <div class="form-field-box">
+                    <span class="form-label-box">Thời gian :</span>
+                    <input class="form-input-box" type="datetime-local" @bind="postModel.Time" required />
                 </div>
             </fieldset>
 
             <fieldset>
                 <legend>Thanh toán</legend>
 
-                <div>
-                    <label for="paymentMethod">Phương thức thanh toán</label>
-                    <select id="paymentMethod" @bind="postModel.PaymentMethod"  required>
-                        <option value="">-- Phương thức thanh toán --</option>
+                <div class="form-field-box">
+                    <span class="form-label-box">Phương thức</span>
+                    <select class="form-input-box" @bind="postModel.PaymentMethod" required>
+                        <option value="">-- Chọn phương thức --</option>
                         <option value="Trả trước">Trả trước</option>
                         <option value="Trả sau">Trả sau</option>
                     </select>
@@ -119,10 +119,10 @@
 
                 @if (postModel.PaymentMethod == "Trả trước")
                 {
-                    <div>
-                        <label for="bank">Ngân hàng thanh toán</label>
-                        <select id="bank" @bind="postModel.Bank" required>
-                            <option value="">-- Ngân hàng thanh toán --</option>
+                    <div class="form-field-box">
+                        <span class="form-label-box">Ngân hàng</span>
+                        <select class="form-input-box" @bind="postModel.Bank" required>
+                            <option value="">-- Ngân hàng --</option>
                             <option value="Vietcombank">Vietcombank</option>
                             <option value="BIDV">BIDV</option>
                             <option value="Techcombank">Techcombank</option>
@@ -132,9 +132,9 @@
                 }
                 else if (postModel.PaymentMethod == "Trả sau")
                 {
-                    <div>
-                        <label for="deposit">Tiền cọc (VND)</label>
-                        <input id="deposit" type="number" min="0" @bind="postModel.Deposit" required />
+                    <div class="form-field-box">
+                        <span class="form-label-box">Tiền cọc (VND)</span>
+                        <input class="form-input-box" type="number" min="0" @bind="postModel.Deposit" required />
                     </div>
                 }
             </fieldset>
@@ -152,6 +152,8 @@
         </EditForm>
     </div>
 </div>
+
+
 
 @code {
     private PostModel postModel = new PostModel();
@@ -253,7 +255,7 @@
                 // Gửi notification realtime
                 if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
                 {
-                    await hubConnection.SendAsync("SendNotification", $"Bài đăng của đội {postModel.TeamName} đã được tạo!");
+                    await hubConnection.SendAsync("SendNotification", $"Bài đăng của đội {postModel.FullName} đã được tạo!");
                 }
 
                 await JS.InvokeVoidAsync("alert", "Tạo bài đăng thành công!");
@@ -278,7 +280,7 @@
     public class PostModel
     {
        
-        public string TeamName { get; set; } = "";
+        public string FullName { get; set; } = "";
 
         public string TeamLeader { get; set; } = "";
 
@@ -332,7 +334,7 @@
     fieldset {
         margin-bottom: 20px;
         padding: 15px;
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         border-radius: 8px;
     }
 
@@ -368,13 +370,14 @@
         display: flex;
         gap: 1rem;
         margin-top: 20px;
+        margin-bottom:20px;
         justify-content: center;
     }
 
     .btn-submit {
         position: relative;
         padding: 10px 25px;
-        background-color: #28a745;
+        background-color:#0E6CD9;
         border: none;
         color: white;
         border-radius: 6px;
@@ -435,6 +438,42 @@
         border-top: 3px solid #28a745;
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
+    }
+
+    .form-field-box {
+        width: 70%;
+        background: #f5f5f5;
+        margin: 10px 0 10px 100px;
+        padding: 10px 15px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .form-label-box {
+        
+        font-size: 16px;
+        font-weight: 500;
+        color: #000;
+        white-space: nowrap;
+    }
+
+    .form-input-box {
+        width: 100px;
+        flex: 1;
+        padding: 8px 10px;
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        outline: none;
+    }
+
+    legend {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold; 
+        font-size: 1.2rem;
+        margin-bottom: 10px;
     }
 
    
