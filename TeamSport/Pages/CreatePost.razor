@@ -1,0 +1,441 @@
+﻿@page "/create-post"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IAsyncDisposable
+
+<div class="create-post-container">
+    <div class="form-wrapper">
+        <h1>Tạo bài đăng</h1>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="error-msg" style="color:red;margin-bottom:10px;">@ErrorMessage</div>
+        }
+
+        @if (!string.IsNullOrEmpty(NotificationMessage))
+        {
+            <div class="notification-msg" style="color:green;margin-bottom:10px;">@NotificationMessage</div>
+        }
+
+        <EditForm Model="@postModel" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <fieldset>
+                <legend>Thông tin đội bóng</legend>
+
+                <div>
+                    <label for="teamName">Tên đội bóng</label>
+                    <input id="teamName" @bind="postModel.TeamName" required />
+                </div>
+
+                <div>
+                    <label for="teamLeader">Trưởng đội</label>
+                    <input id="teamLeader" @bind="postModel.TeamLeader" required />
+                </div>
+
+                <div>
+                    <label for="memberCount">Số thành viên</label>
+                    <input id="memberCount" type="number" min="1" @bind="postModel.MemberCount" required />
+                </div>
+
+                <div>
+                    <label for="gender">Giới tính</label>
+                    <select id="gender" @bind="postModel.Gender" required>
+                        <option value="">-- Chọn giới tính --</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="sport">Loại thể thao</label>
+                    <select id="sport" @bind="postModel.Sport" required>
+                        <option value="">-- Chọn thể thao --</option>
+                        <option value="Bóng đá">Bóng đá</option>
+                        <option value="Bóng rổ">Bóng rổ</option>
+                        <option value="Cầu lông">Cầu lông</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="level">Cấp độ</label>
+                    <select id="level" @bind="postModel.Level" required>
+                        <option value="">-- Chọn cấp độ --</option>
+                        <option value="Mới">Mới</option>
+                        <option value="Trung bình">Trung bình</option>
+                        <option value="Cao cấp">Cao cấp</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Liên hệ</legend>
+
+                <div>
+                    <label for="address">Địa chỉ</label>
+                    <input id="address" @bind="postModel.Address" required />
+                </div>
+
+                <div>
+                    <label for="phone">Số điện thoại</label>
+                    <input id="phone" type="tel" @bind="postModel.Phone" required pattern="[0-9]{10,11}" />
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" type="email" @bind="postModel.Email" required />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Sân bãi và thời gian</legend>
+
+                <div>
+                    <label for="field">Sân</label>
+                    <input id="field" @bind="postModel.Field" required />
+                </div>
+
+                <div>
+                    <label for="time">Thời gian</label>
+                    <input id="time" type="datetime-local" @bind="postModel.Time" required />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Thanh toán</legend>
+
+                <div>
+                    <label for="paymentMethod">Phương thức thanh toán</label>
+                    <select id="paymentMethod" @bind="postModel.PaymentMethod"  required>
+                        <option value="">-- Phương thức thanh toán --</option>
+                        <option value="Trả trước">Trả trước</option>
+                        <option value="Trả sau">Trả sau</option>
+                    </select>
+                </div>
+
+                @if (postModel.PaymentMethod == "Trả trước")
+                {
+                    <div>
+                        <label for="bank">Ngân hàng thanh toán</label>
+                        <select id="bank" @bind="postModel.Bank" required>
+                            <option value="">-- Ngân hàng thanh toán --</option>
+                            <option value="Vietcombank">Vietcombank</option>
+                            <option value="BIDV">BIDV</option>
+                            <option value="Techcombank">Techcombank</option>
+                            <option value="VPBank">VPBank</option>
+                        </select>
+                    </div>
+                }
+                else if (postModel.PaymentMethod == "Trả sau")
+                {
+                    <div>
+                        <label for="deposit">Tiền cọc (VND)</label>
+                        <input id="deposit" type="number" min="0" @bind="postModel.Deposit" required />
+                    </div>
+                }
+            </fieldset>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-submit" disabled="@IsSubmitting">
+                    @(IsSubmitting ? "Đang gửi..." : "Gửi bài đăng")
+                    @if (IsSubmitting)
+                    {
+                        <span class="spinner"></span>
+                    }
+                </button>
+                <button type="button" class="btn-cancel" @onclick="HandleCancel" disabled="@IsSubmitting">Hủy</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private PostModel postModel = new PostModel();
+    private bool IsSubmitting = false;
+    private string ErrorMessage = "";
+    private string NotificationMessage = "";
+
+    private HubConnection? hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SetupSignalR();
+    }
+
+    private async Task SetupSignalR()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://yourapi.com/hubs/notifications", options =>
+            {
+                options.AccessTokenProvider = async () =>
+                {
+                    var token = await JS.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+                    return token ?? "";
+                };
+            })
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<string>("ReceiveNotification", message =>
+        {
+            NotificationMessage = message;
+            StateHasChanged();
+
+            // Tự ẩn sau 5 giây
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                NotificationMessage = "";
+                await InvokeAsync(StateHasChanged);
+            });
+        });
+
+        try
+        {
+            await hubConnection.StartAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Lỗi kết nối SignalR: " + ex.Message);
+        }
+    }
+
+    private void OnPaymentMethodChanged(ChangeEventArgs e)
+    {
+        var newMethod = e.Value?.ToString() ?? "";
+        postModel.PaymentMethod = newMethod;
+
+        // Reset dữ liệu không phù hợp
+        if (newMethod == "Trả trước")
+        {
+            postModel.Deposit = null;
+        }
+        else if (newMethod == "Trả sau")
+        {
+            postModel.Bank = "";
+        }
+    }
+
+    private void HandleCancel()
+    {
+        postModel = new PostModel();
+        ErrorMessage = "";
+        NotificationMessage = "";
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        IsSubmitting = true;
+        ErrorMessage = "";
+        NotificationMessage = "";
+
+        try
+        {
+            var token = await JS.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+            if (string.IsNullOrEmpty(token))
+            {
+                ErrorMessage = "Bạn chưa đăng nhập hoặc token hết hạn.";
+                IsSubmitting = false;
+                return;
+            }
+
+            Http.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await Http.PostAsJsonAsync("https://yourapi.com/api/posts", postModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Gửi notification realtime
+                if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
+                {
+                    await hubConnection.SendAsync("SendNotification", $"Bài đăng của đội {postModel.TeamName} đã được tạo!");
+                }
+
+                await JS.InvokeVoidAsync("alert", "Tạo bài đăng thành công!");
+                HandleCancel();
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                ErrorMessage = $"Lỗi khi gửi dữ liệu: {error}";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = "Có lỗi xảy ra: " + ex.Message;
+        }
+        finally
+        {
+            IsSubmitting = false;
+        }
+    }
+
+    public class PostModel
+    {
+       
+        public string TeamName { get; set; } = "";
+
+        public string TeamLeader { get; set; } = "";
+
+        
+        public int MemberCount { get; set; } = 1;
+
+       
+        public string Gender { get; set; } = "";
+
+        
+        public string Sport { get; set; } = "";
+
+       
+        public string Level { get; set; } = "";
+
+        
+        public string Address { get; set; } = "";
+
+      
+        public string Phone { get; set; } = "";
+
+      
+        public string Email { get; set; } = "";
+
+  
+        public string Field { get; set; } = "";
+
+
+        public DateTime? Time { get; set; } = null;
+
+       
+        public string PaymentMethod { get; set; } = "";
+
+        // Bank bắt buộc khi trả trước
+        public string Bank { get; set; } = "";
+
+        // Deposit bắt buộc khi trả sau
+        public int? Deposit { get; set; }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}
+
+<style>
+    fieldset {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    fieldset div {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    fieldset div label {
+        width: 150px;
+        font-weight: 600;
+    }
+
+    fieldset div input,
+    fieldset div select {
+        flex: 1;
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 1rem;
+    }
+
+    fieldset div input:focus,
+    fieldset div select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    .btn-submit {
+        position: relative;
+        padding: 10px 25px;
+        background-color: #28a745;
+        border: none;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-submit:disabled {
+        background-color: #94d3a2;
+        cursor: not-allowed;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+        background-color: #218838;
+    }
+
+    .btn-cancel {
+        padding: 10px 25px;
+        background-color: #dc3545;
+        border: none;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1rem;
+    }
+
+    .btn-cancel:disabled {
+        background-color: #e59a9a;
+        cursor: not-allowed;
+    }
+
+    .btn-cancel:hover:not(:disabled) {
+        background-color: #c82333;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .error-msg {
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .notification-msg {
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .spinner {
+        width: 18px;
+        height: 18px;
+        border: 3px solid #fff;
+        border-top: 3px solid #28a745;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+   
+</style>

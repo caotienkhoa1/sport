@@ -1,184 +1,114 @@
 ﻿@page "/home"
-@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavigationManager
 
-<!-- CSS files - bạn cần import các file này vào wwwroot và khai báo trong _Host.cshtml hoặc index.html -->
-<link href="./css/globals.css" rel="stylesheet" />
-<link href="./css/styleguide.css" rel="stylesheet" />
-<link href="./css/style.css" rel="stylesheet" />
-<div class="fullscreen-bg">
-    <img src="img/11.png" alt="background" class="fullscreen-img" />
-</div>
-
-<div class="frame">
-
-    <div class="div">
-        <div class="overlap-group">
-            <div class="nh">
-                <img class="pxfuel" src="img/2.png" />
-            </div>
-            <div class="text-wrapper">TEAM MATCH SPORT</div>
-            <div class="rectangle"></div>
-            <div class="group">
-                <div class="div-wrapper"><div class="text-wrapper-2">Đăng ký</div></div>
-                <div class="div-wrapper-2"><div class="text-wrapper-3">Tên đăng nhập</div></div>
-                <div class="div-wrapper-3"><div class="text-wrapper-3">Mật khẩu</div></div>
-                <div class="div-wrapper-4"><div class="text-wrapper-3">Xác nhận mật khẩu</div></div>
-                <div class="div-wrapper-5"><div class="text-wrapper-3">Địa chỉ email</div></div>
-                <div class="div-wrapper-6"><div class="text-wrapper-4">Xác nhận</div></div>
-            </div>
+<div class="home-background">
+    
+    <div class="home-content">
+        <h1>TÌM ĐỐI THỦ CỦA BẠN</h1>
+        <div class="button-group">
+            <button class="btn btn-primary" @onclick="NavigateToCreate">Tạo bài đăng</button>
+            <button class="btn btn-success" @onclick="NavigateToFind">Tìm</button>
         </div>
-
-        <!-- Navbar -->
-        @* <div class="navbar">
-            <div class="container">
-                <div class="column">
-                    <div class="div-2">
-                        <div class="nav-link-dropdown"><div class="text-wrapper-5">Home</div></div>
-                        
-                    </div>
-                    <div class="column-2">
-                        <button class="button-2" onclick="window.location.href='/login'">Log In</button>
-                        <button class="button-3" onclick="window.location.href='/register'">Sign Up</button>
-                    </div>
-                </div>
-            </div>
-        </div> *@
-
-        <!-- About Section --><div class="fullscreen-bi">
-            <img class="pxfuel" src="img/Anhnen.png" />
-        </div>
-        <div class="overlap">
-            <div class="nh-2"></div>
-            <div class="div-4">
-                <div class="nh">
-                    
-                    <button class="text-wrapper-10" onclick="window.location.href='/register'">
-                        Đăng ký ngay
-                    </button>
-                </div>
-               
-            </div>
-            <div class="text-wrapper-7">TEAM MATCH SPORT</div>
-            <div class="group-2">
-                <div class="text-wrapper-8">Về chúng tôi</div>
-                <p class="p">
-                    Dự án này sẽ giúp cộng đồng người chơi thể thao dễ dàng truy cập thông tin...
-                </p>
-                
-                <div class="div-3">
-                    <div class="text-wrapper-9">Tìm hiểu thêm</div>
-                    <img class="vector" src="img/vector.svg" />
-                </div>
-                
-                
-                <img class="image" src="img/image 3.png" />
-                <img class="image-2" src="img/image.png" />
-            </div>
-        </div>
-
-        <!-- Feedback Section -->
-        <div class="group-3">
-            <p class="text-wrapper-11">Đánh giá của người dùng</p>
-            <div class="div-5">
-                @for (int i = 1; i <= 5; i++)
-                {
-                    <div class="text-wrapper-12">Người dùng @i</div>
-                }
-            </div>
-            <div class="div-6">
-                @for (int i = 0; i < 5; i++)
-                {
-                    <div class="ellipse"></div>
-                }
-            </div>
-            <img class="img-2" src="img/Sao.png">
-            <img class="img-3" src="img/Sao.png" />
-            <img class="img-4" src="img/Sao.png" />
-            <img class="img-5" src="img/Sao.png" />
-            <img class="img-6" src="img/Sao.png" />
-
-            @for (int i = 0; i < 5; i++)
-            {
-                <p class="text-wrapper-@(13 + i)">
-                    Lorem ipsum dolor sit amet consectetur. Lobortis pellentesque cras sed sapien iaculis cras nunc donec scelerisque. Massa pellentesque sit id id. Placerat duis eu pulvinar lacinia tincidunt facilisi ultrices imperdiet rhoncus. Odio sit faucibus in netus diam facilisi libero ante.
-                </p>
-            }
-        </div>
-
-        <div class="div-wrapper-7">
-            <p class="text-wrapper-18">Tham gia cùng chúng tôi</p>
-        </div>
-
-        @* <!-- Footer -->
-        <div class="footer">
-            <div class="div-7">
-                <div class="column-3">
-                    <div class="ddsgnr-library">
-                        <div class="ddsgnr-library-2">
-                            <img class="img-7" src="img/frame-1.svg" />
-                            <div class="text-wrapper-19">Ddsgnr</div>
-                        </div>
-                    </div>
-                    <div class="div-2">
-                        <div class="text-wrapper-20">Bóng đá</div>
-                        <div class="text-wrapper-20">Bóng rổ</div>
-                        <div class="text-wrapper-20">Bóng chuyền</div>
-                        <div class="text-wrapper-20">Cầu lông</div>
-                        <div class="text-wrapper-20">Pickleball</div>
-                    </div>
-                </div>
-
-                <div class="actions">
-                    <div class="text-wrapper-21">Subscribe</div>
-                    <div class="form">
-                        <InputText class="text-input" @bind-Value="email" placeholder="Enter your email" />
-                        <button class="button-4" @onclick="Subscribe">Subscribe</button>
-                    </div>
-                    <p class="by-subscribing-you">
-                        <span class="span">By subscribing you agree to our </span>
-                        <span class="text-wrapper-22">Privacy Policy</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="credits">
-                <div class="divider"></div>
-                <div class="div-7">
-                    <div class="footer-links">
-                        <div class="text-wrapper-24">Privacy Policy</div>
-                        <div class="text-wrapper-24">Terms of Service</div>
-                        <div class="text-wrapper-24">Cookies Settings</div>
-                    </div>
-                    <p class="text-wrapper-25">2025 Ddsgnr. All rights reserved.</p>
-                </div>
-            </div>
-        </div> *@
     </div>
+    
 </div>
+
 
 @code {
-    private string email;
-
-    private void Subscribe()
-    {
-        // Xử lý đăng ký nhận email ở đây
-        Console.WriteLine($"Subscribed with: {email}");
-    }
+    void NavigateToCreate() => NavigationManager.NavigateTo("/create-post");
+    void NavigateToFind() => NavigationManager.NavigateTo("/find");
 }
 <style>
-    .text-wrapper-10 {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        border: none;
-        font-size: 16px;
-        position: relative;
-        z-index: 10; /* đảm bảo nằm trên ảnh */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width:100%;
+        background-image: url('/img/Anhnen.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
     }
 
+    .home-background {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    
+    .home-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: wheat;
+    }
+
+        .home-content h1 {
+            font-size: 90px;
+            font-weight: bold;
+            margin-bottom: 70px;
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 100px;
+    }
+
+        .button-group button {
+            flex: 1;
+            max-width: 250px;
+            font-size: 28px !important;
+            padding: 16px 0 !important;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+    .btn {
+        font-size: 28px;
+        padding: 16px 32px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .home-box {
+        background-color: #ffffff8c;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+       
+        max-width: 600px;
+        width: 90%;
+        text-align: center;
+    }
+
+    .page,
+    main,
+    article {
+        background: transparent !important;
+    }
+
+    article {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+
+    .navbar,
+    footer {
+        background: transparent !important;
+        box-shadow: none; /* nếu muốn bỏ bóng */
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+
 </style>
+

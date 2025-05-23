@@ -3,11 +3,7 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
 
-@* <div class="logo-top-right">
-    <a href="/">
-        <img src="/img/logo 1.png" alt="Logo" />
-    </a>
-</div> *@
+
 <div class="register-container">
     <div class="left-side"></div>
     <div class="right-side">
@@ -60,18 +56,58 @@
     private bool IsLoading = false;
     private string ErrorMessage;
 
+    // Thêm tham chiếu tới các input
+    private ElementReference lastNameRef;
+    private ElementReference firstNameRef;
+    private ElementReference emailRef;
+    private ElementReference phoneRef;
+    private ElementReference passwordRef;
+    private ElementReference confirmPasswordRef;
+
     private async Task HandleValidSubmit()
     {
         ErrorMessage = null;
 
-        if (!agreedTerms)
+        // Kiểm tra từng trường và focus vào trường lỗi đầu tiên
+        if (string.IsNullOrWhiteSpace(user.LastName))
         {
-            ErrorMessage = "Bạn phải đồng ý với điều khoản và chính sách bảo mật.";
+            ErrorMessage = "Vui lòng nhập họ.";
+            await JS.InvokeVoidAsync("focusElement", lastNameRef);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(user.FirstName))
+        {
+            ErrorMessage = "Vui lòng nhập tên.";
+            await JS.InvokeVoidAsync("focusElement", firstNameRef);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(user.Email))
+        {
+            ErrorMessage = "Vui lòng nhập email.";
+            await JS.InvokeVoidAsync("focusElement", emailRef);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(user.PhoneNumber))
+        {
+            ErrorMessage = "Vui lòng nhập số điện thoại.";
+            await JS.InvokeVoidAsync("focusElement", phoneRef);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(user.Password))
+        {
+            ErrorMessage = "Vui lòng nhập mật khẩu.";
+            await JS.InvokeVoidAsync("focusElement", passwordRef);
             return;
         }
         if (user.Password != confirmPassword)
         {
             ErrorMessage = "Mật khẩu xác nhận không khớp.";
+            await JS.InvokeVoidAsync("focusElement", confirmPasswordRef);
+            return;
+        }
+        if (!agreedTerms)
+        {
+            ErrorMessage = "Bạn phải đồng ý với điều khoản và chính sách bảo mật.";
             return;
         }
 
@@ -88,19 +124,14 @@
                 password = user.Password
             };
 
-            // Gọi API đăng ký (thay bằng URL API thực tế)
             var response = await Http.PostAsJsonAsync("https://api.example.com/api/auth/register", requestData);
 
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<RegisterResponse>();
-
                 if (!string.IsNullOrEmpty(result?.Token))
                 {
-                    // Lưu token JWT vào localStorage
                     await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", result.Token);
-
-                    // Điều hướng về trang chủ hoặc trang khác
                     Navigation.NavigateTo("/");
                 }
                 else
@@ -138,6 +169,7 @@
         public string Token { get; set; }
     }
 }
+
 
 <style>
     .register-container {
@@ -262,19 +294,15 @@
         display: inline; /* đảm bảo không xuống dòng hoặc giãn dòng */
     }
 
-    .logo-top-right {
-        position: fixed;
-        top: 20px;
-        right: 30px;
-        z-index: 999;
+   
+
+    .input-name:focus,
+    .single-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        background-color: #fff;
     }
-
-        .logo-top-right img {
-            height: 50px;
-            width: auto;
-            cursor: pointer;
-        }
-
 
 </style>
 

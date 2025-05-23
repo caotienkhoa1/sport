@@ -14,21 +14,40 @@
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <img src="img/soccer.png" alt="Loading..." class="loading-ball" />
     </div>
 
-    <!--<div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>-->
+
+
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 </body>
 
 </html>
+<style>
+    .loading-ball {
+        width: 80px;
+        height: 80px;
+        margin: 100px auto;
+        display: block;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+  
+    .loading-ball {
+        width: 80px;
+        height: 80px;
+        animation: spin 1s linear infinite;
+    }
+
+</style>

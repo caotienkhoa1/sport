@@ -8,41 +8,7 @@
 
 <div class="v250_195">
     <div class="wrapper">
-        <!-- Sports List -->
-        <div class="v250_211">
-            <div class="v250_212">
-                <div class="v250_213">
-                    <div class="v250_214"></div>
-                    <div class="v250_215">
-                        @foreach (var sport in Sports)
-                        {
-                            <span class="@($"v250_21{6 + Sports.IndexOf(sport)}")">@sport</span>
-                        }
-                    </div>
-                </div>
-                <div class="v250_221">
-                    <span class="v250_222">Subscribe</span>
-                    <div class="v250_223">
-                        <input class="name" placeholder="Your name" />
-                        <input class="name" placeholder="Your email" />
-                    </div>
-                    <span class="v250_226">By subscribing you agree to with our Privacy Policy</span>
-                </div>
-            </div>
-            <div class="v250_227">
-                <div class="v250_228"></div>
-                <div class="v250_229">
-                    <div class="v250_230">
-                        <span class="v250_231">Privacy Policy</span>
-                        <span class="v250_232">Terms of Service</span>
-                        <span class="v250_233">Cookies Settings</span>
-                    </div>
-                    <span class="v250_234">2025 Ddsgnr. All right reserved.</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profile Image -->
+       
         @if (!string.IsNullOrEmpty(ImageUrl))
         {
             <img src="@ImageUrl" alt="Ảnh đại diện" class="profile-image" />
@@ -53,6 +19,7 @@
         }
 
         <div class="v250_247"><span class="v250_248">Thông tin cơ bản</span></div>
+       
         <div class="v250_249"><span class="v250_250">Thông tin liên hệ</span></div>
         <div class="v250_2499">
             <span class="v250_2500">Thông tin trận đấu</span>
@@ -77,6 +44,9 @@
 
         <div class="v250_251"><span class="v250_252">Họ và tên: @TeamName</span></div>
         <div class="v250_253"><span class="v250_254">Địa chỉ: @Address</span></div>
+        <div class="v250_captain">
+            <span class="v250_captain_label">Đội trưởng: @CaptainName</span>
+        </div>
         <div class="v250_255"><span class="v250_256">Giới tính: @Gender</span></div>
         <div class="v250_257"><span class="v250_258">Số điện thoại: @PhoneNumber</span></div>
         <div class="v250_259"><span class="v250_260">E-mail: @Email</span></div>
@@ -103,6 +73,7 @@
     private string Level;
     private string Introduction;
     private string ImageUrl;
+    private string CaptainName;
     private List<string> Sports = new List<string>();
     private Match? CurrentMatch;
 
@@ -141,6 +112,7 @@
         Introduction = teamInfo.Introduction;
         ImageUrl = teamInfo.ImageUrl;
         Sports = teamInfo.Sports ?? new List<string>();
+        CaptainName = string.IsNullOrEmpty(teamInfo.CaptainName) ? "Chưa có đội trưởng" : teamInfo.CaptainName;
 
         // Hiển thị trận đầu tiên nếu có
         CurrentMatch = teamInfo.Matches?.FirstOrDefault();
@@ -208,6 +180,7 @@
         public string Level { get; set; }
         public string Introduction { get; set; }
         public string ImageUrl { get; set; }
+        public string CaptainName{ get; set; }
         public List<string> Sports { get; set; }
         public List<Match> Matches { get; set; }
     }
@@ -233,5 +206,28 @@
 
     }
 
-      
+    .v250_captain {
+        width: 396px;
+        height: 40px;
+        background: rgba(245,245,245,1);
+        margin: 10px;
+        opacity: 1;
+        position: absolute;
+        top: 272px; /* Bạn có thể chỉnh lại vị trí top sao cho không chồng lên phần khác */
+        left: 1330px; /* giữ nguyên hoặc chỉnh theo layout */
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .v250_captain_label {
+        width: 229px;
+        color: rgba(0,0,0,1);
+        position: absolute;
+        top: 8px;
+        left: 10px;
+        font-size: 16px;
+        opacity: 1;
+        text-align: left;
+    }
+
     </style>
