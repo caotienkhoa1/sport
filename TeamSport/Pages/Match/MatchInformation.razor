@@ -1,4 +1,4 @@
-﻿@page "/match-info"
+﻿@page "/match-info/{MatchId:int}"
 @using Microsoft.AspNetCore.SignalR.Client
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
@@ -30,7 +30,11 @@
         </div>
     </div>
 </div>
+
 @code {
+    [Parameter]
+    public int MatchId { get; set; }
+
     private HubConnection? hubConnection;
     private MatchInfoModel? matchInfo;
 
@@ -38,11 +42,11 @@
     {
         var token = await JS.InvokeAsync<string>("localStorage.getItem", "access_token");
 
-        if (string.IsNullOrEmpty(token))
-        {
-            Navigation.NavigateTo("/login");
-            return;
-        }
+        // if (string.IsNullOrEmpty(token))
+        // {
+        //     Navigation.NavigateTo("/login");
+        //     return;
+        // }
 
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri("https://localhost:7000/matchhub"), options =>
@@ -59,6 +63,9 @@
         });
 
         await hubConnection.StartAsync();
+
+        // Gửi MatchId để server biết bạn muốn nhận dữ liệu trận này
+        await hubConnection.InvokeAsync("SubscribeToMatch", MatchId);
     }
 
     public async ValueTask DisposeAsync()
@@ -77,6 +84,7 @@
         public string Field { get; set; } = "";
     }
 }
+
 
 <style>
     body, html {

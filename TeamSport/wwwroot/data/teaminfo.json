@@ -1,0 +1,23 @@
+﻿{
+  "teamName": "Đội Test",
+  "address": "TP. Hồ Chí Minh",
+  "gender": "Nam",
+  "phoneNumber": "0909123456",
+  "email": "test@example.com",
+  "level": "Khá",
+  "introduction": "Giới thiệu nè",
+  "imageUrl": "/img/default-user.png",
+  "captainName": "Nguyễn Văn A",
+  "sports": [ "Bóng đá", "Cầu lông" ],
+  "memberCount": 10,
+  "matches": [
+    {
+      "info": "Trận đấu với Đội A vào ngày 01/06/2025",
+      "status": "Đã hoàn thành"
+    },
+    {
+      "info": "Trận đấu với Đội B vào ngày 15/06/2025",
+      "status": "Xem"
+    }
+  ]
+}

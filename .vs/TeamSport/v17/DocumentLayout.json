@@ -3,56 +3,48 @@
   "WorkspaceRootPath": "G:\\PRN222\\TeamSport\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\profile\\competitorinformation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\profile\\competitorinformation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\profile\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\profile\\profile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\wwwroot\\css\\ab.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\wwwroot\\css\\ab.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\wwwroot\\data\\teaminfo.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\wwwroot\\data\\teaminfo.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\match\\matchinformation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\match\\matchinformation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\match\\findcompetitors.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\match\\findcompetitors.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\home\\homeguest.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\home\\homeguest.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\verifycode.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\verifycode.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\registers.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\registers.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\newpassword.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\newpassword.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\loginpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\loginpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\match\\createpost.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\match\\createpost.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\forgotpassword.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\forgotpassword.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\match\\createpost.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\match\\createpost.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\home\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\home\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\newpassword.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\newpassword.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\profile\\competitorinformation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\profile\\competitorinformation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\pages\\auth\\verifycode.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\pages\\auth\\verifycode.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -85,10 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\properties\\mock-users.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\properties\\mock-users.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|g:\\prn222\\teamsport\\teamsport\\wwwroot\\mock-users.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{14E05B7C-283E-47F6-BEE6-E8DFA094BB81}|TeamSport\\TeamSport.csproj|solutionrelative:teamsport\\wwwroot\\mock-users.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -98,108 +86,69 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Registers.razor",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\Registers.razor",
-              "RelativeDocumentMoniker": "TeamSport\\Pages\\Auth\\Registers.razor",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\Registers.razor",
-              "RelativeToolTip": "TeamSport\\Pages\\Auth\\Registers.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGwBAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-25T05:56:50.061Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HomeGuest.razor",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Home\\HomeGuest.razor",
-              "RelativeDocumentMoniker": "TeamSport\\Pages\\Home\\HomeGuest.razor",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Home\\HomeGuest.razor",
-              "RelativeToolTip": "TeamSport\\Pages\\Home\\HomeGuest.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-23T18:51:21.708Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "VerifyCode.razor",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\VerifyCode.razor",
-              "RelativeDocumentMoniker": "TeamSport\\Pages\\Auth\\VerifyCode.razor",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\VerifyCode.razor",
-              "RelativeToolTip": "TeamSport\\Pages\\Auth\\VerifyCode.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-25T06:01:33.028Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "LoginPage.razor",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\LoginPage.razor",
-              "RelativeDocumentMoniker": "TeamSport\\Pages\\Auth\\LoginPage.razor",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\LoginPage.razor",
-              "RelativeToolTip": "TeamSport\\Pages\\Auth\\LoginPage.razor",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAAAKwAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-23T18:51:50.89Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FindCompetitors.razor",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Match\\FindCompetitors.razor",
-              "RelativeDocumentMoniker": "TeamSport\\Pages\\Match\\FindCompetitors.razor",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Match\\FindCompetitors.razor",
-              "RelativeToolTip": "TeamSport\\Pages\\Match\\FindCompetitors.razor",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAAAJsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-25T05:57:29.34Z",
+              "DocumentIndex": 1,
+              "Title": "ab.css",
+              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\css\\ab.css",
+              "RelativeDocumentMoniker": "TeamSport\\wwwroot\\css\\ab.css",
+              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\css\\ab.css",
+              "RelativeToolTip": "TeamSport\\wwwroot\\css\\ab.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0EAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-05-25T18:36:14.353Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "teaminfo.json",
+              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\data\\teaminfo.json",
+              "RelativeDocumentMoniker": "TeamSport\\wwwroot\\data\\teaminfo.json",
+              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\data\\teaminfo.json",
+              "RelativeToolTip": "TeamSport\\wwwroot\\data\\teaminfo.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-25T18:28:27.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MatchInformation.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Match\\MatchInformation.razor",
               "RelativeDocumentMoniker": "TeamSport\\Pages\\Match\\MatchInformation.razor",
               "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Match\\MatchInformation.razor",
               "RelativeToolTip": "TeamSport\\Pages\\Match\\MatchInformation.razor",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAC8AAABGAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACwAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-25T05:57:31.837Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 9,
               "Title": "CompetitorInformation.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Profile\\CompetitorInformation.razor",
               "RelativeDocumentMoniker": "TeamSport\\Pages\\Profile\\CompetitorInformation.razor",
               "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Profile\\CompetitorInformation.razor",
               "RelativeToolTip": "TeamSport\\Pages\\Profile\\CompetitorInformation.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKcAAABWAAAAAAAAAA==",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAAAOgAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-25T06:01:38.606Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Profile.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Profile\\Profile.razor",
               "RelativeDocumentMoniker": "TeamSport\\Pages\\Profile\\Profile.razor",
               "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Profile\\Profile.razor",
               "RelativeToolTip": "TeamSport\\Pages\\Profile\\Profile.razor",
-              "ViewState": "AgIAAJsAAAAAAAAAAAAAALcAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJcAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-25T06:01:37.313Z",
               "EditorCaption": ""
@@ -219,7 +168,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
+              "Title": "Home.razor",
+              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Home\\Home.razor",
+              "RelativeDocumentMoniker": "TeamSport\\Pages\\Home\\Home.razor",
+              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Home\\Home.razor",
+              "RelativeToolTip": "TeamSport\\Pages\\Home\\Home.razor",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAswLEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-23T18:51:20.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "VerifyCode.razor",
+              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\VerifyCode.razor",
+              "RelativeDocumentMoniker": "TeamSport\\Pages\\Auth\\VerifyCode.razor",
+              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\VerifyCode.razor",
+              "RelativeToolTip": "TeamSport\\Pages\\Auth\\VerifyCode.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-25T06:01:33.028Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ForgotPassword.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Auth\\ForgotPassword.razor",
               "RelativeDocumentMoniker": "TeamSport\\Pages\\Auth\\ForgotPassword.razor",
@@ -232,33 +206,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Home.razor",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Home\\Home.razor",
-              "RelativeDocumentMoniker": "TeamSport\\Pages\\Home\\Home.razor",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Home\\Home.razor",
-              "RelativeToolTip": "TeamSport\\Pages\\Home\\Home.razor",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACAAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-23T18:51:20.917Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 4,
               "Title": "CreatePost.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Match\\CreatePost.razor",
               "RelativeDocumentMoniker": "TeamSport\\Pages\\Match\\CreatePost.razor",
               "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Match\\CreatePost.razor",
               "RelativeToolTip": "TeamSport\\Pages\\Match\\CreatePost.razor",
-              "ViewState": "AgIAAAYBAAAAAAAAAAAAAA0BAABOAAAAAAAAAA==",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAAAA0BAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-25T05:57:33.874Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Program.cs",
               "RelativeDocumentMoniker": "TeamSport\\Program.cs",
@@ -271,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 11,
               "Title": "MainLayout.razor.css",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Layout\\MainLayout.razor.css",
               "RelativeDocumentMoniker": "TeamSport\\Layout\\MainLayout.razor.css",
@@ -283,7 +244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 12,
               "Title": "launchSettings.json",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "TeamSport\\Properties\\launchSettings.json",
@@ -295,7 +256,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 13,
               "Title": "App.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\App.razor",
               "RelativeDocumentMoniker": "TeamSport\\App.razor",
@@ -307,7 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 14,
               "Title": "_Imports.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\_Imports.razor",
               "RelativeDocumentMoniker": "TeamSport\\_Imports.razor",
@@ -319,19 +280,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "mock-users.json",
-              "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\mock-users.json",
-              "RelativeDocumentMoniker": "TeamSport\\wwwroot\\mock-users.json",
-              "ToolTip": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\mock-users.json",
-              "RelativeToolTip": "TeamSport\\wwwroot\\mock-users.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-25T05:41:42.894Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 18,
               "Title": "mock-users.json",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Properties\\mock-users.json",
               "RelativeDocumentMoniker": "TeamSport\\Properties\\mock-users.json",
@@ -343,7 +292,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 17,
               "Title": "Index.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Pages\\Index.razor",
               "RelativeDocumentMoniker": "TeamSport\\Pages\\Index.razor",
@@ -355,7 +304,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 16,
               "Title": "index.html",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\wwwroot\\index.html",
               "RelativeDocumentMoniker": "TeamSport\\wwwroot\\index.html",
@@ -367,7 +316,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 15,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "G:\\PRN222\\TeamSport\\TeamSport\\Layout\\MainLayout.razor",
               "RelativeDocumentMoniker": "TeamSport\\Layout\\MainLayout.razor",

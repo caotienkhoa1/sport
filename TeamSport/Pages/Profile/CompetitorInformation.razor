@@ -3,6 +3,7 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
+@using System.Text.Json.Serialization;
 
 <link href="css/ab.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
@@ -98,7 +99,7 @@
     protected override async Task OnInitializedAsync()
     {
         
-        var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("https://localhost:7000/api/teaminfo");
+        var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("https:localhost:7000/api/teaminfo");
         if (teamInfo != null)
         {
             UpdateTeamInfo(teamInfo);
@@ -107,10 +108,10 @@
         
         if (OpponentId > 0)
         {
-            CurrentOpponent = await Http.GetFromJsonAsync<OpponentInfo>($"https://localhost:7000/api/opponent/{OpponentId}");
+            CurrentOpponent = await Http.GetFromJsonAsync<OpponentInfo>($"https:localhost:7000/api/opponent/{OpponentId}");
         }
 
-        // Khởi tạo hub connection và đăng ký sự kiện
+        
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri("/teamhub"))
             .Build();
@@ -122,6 +123,12 @@
         });
 
         await hubConnection.StartAsync();
+        // test data
+        // var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("data/teaminfo.json");
+        // if (teamInfo != null)
+        // {
+        //     UpdateTeamInfo(teamInfo);
+        // }
     }
 
     private void UpdateTeamInfo(TeamInfo teamInfo)
@@ -221,7 +228,8 @@
     }
 
     public class Match
-    {
+    { 
+        
         public string Info { get; set; }
         public string Status { get; set; }
     }

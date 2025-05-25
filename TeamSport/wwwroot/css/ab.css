@@ -514,7 +514,7 @@ body {
 }
 .v250_2499 {
     width: 800px;
-    height: 59px;
+    height: 200px;
     background: url("../img/v250_249.png");
     background-repeat: no-repeat;
     background-position: center center;
@@ -603,14 +603,14 @@ body {
 }
 
 .v250_2511 {
-    width: 396px;
-    height: 40px;
+    width: 500px;
+    height: 99px;
     background: rgba(245,245,245,1);
     margin: 10px;
     opacity: 1;
     position: absolute;
-    top: 837px;
-    left: 564px;
+    top: 40px;
+    left: 54px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -630,7 +630,7 @@ body {
 }
 
 .v250_2522 {
-    width: 229px;
+    width: 300px;
     color: rgba(0,0,0,1);
     position: absolute;
     top: 8px;
@@ -691,7 +691,7 @@ body {
 
 
 .v250_254 {
-    width: 54px;
+/*    width: 350px;*/
     color: rgba(0,0,0,1);
     position: absolute;
     top: 8px;
@@ -814,8 +814,7 @@ body {
 }
 
 .v250_258 {
-    width: 101px;
-    color: rgba(0,0,0,1);
+    width: 300px !important;
     position: absolute;
     top: 8px;
     left: 10px;
@@ -905,13 +904,12 @@ body {
 }
 
 .v250_260 {
-    width: 52px;
+    width: 300px !important;
     color: rgba(0,0,0,1);
     position: absolute;
     top: 8px;
     left: 10px;
     font-family: Roboto;
-    font-weight: ExtraBold;
     font-size: 16px;
     opacity: 1;
     text-align: left;
@@ -1011,46 +1009,37 @@ body {
 }
 
 .v254_328 {
-    width: 645px;
-    height: 67px;
+    width: 500px;
+    height: auto;
     background: rgba(245,245,245,1);
-    margin: 10px;
-    opacity: 1;
-    position: absolute;
-    top: 794px;
-    left: 564px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    margin: 10px auto;
+    border-radius: 20px;
     overflow: hidden;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .v254_329 {
-    width: 502px;
-    color: rgba(0,0,0,1);
-    position: absolute;
-    top: 21px;
-    left: 10px;
-    font-family: Roboto;
-    font-weight: ExtraBold;
+    color: black;
+    font-weight: 800;
     font-size: 16px;
-    opacity: 1;
-    text-align: left;
 }
 
 .v254_333 {
-    width: 59px;
     color: rgba(255,80,80,1);
-    position: absolute;
-    top: 21px;
-    left: 576px;
-    font-family: Roboto;
-    font-weight: ExtraBold;
+    font-weight: 800;
     font-size: 16px;
-    opacity: 1;
-    text-align: center;
 }
+.matches-list {
+    margin-right: 500px; 
+    margin-top: 700px; 
+    
+}
+
+
 
 .v254_339 {
     width: 645px;

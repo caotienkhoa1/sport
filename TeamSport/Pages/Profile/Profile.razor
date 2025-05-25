@@ -68,21 +68,26 @@
                 <div class="v250_308"></div>
             </div>
         </div>
-
-        @if (Matches == null || Matches.Count == 0)
-        {
-            <p>Chưa có trận đấu nào được ghép cặp.</p>
-        }
-        else
-        {
+        <div class="matches-list">
             @foreach (var match in Matches)
             {
                 <div class="v254_328">
                     <span class="v254_329">@match.Info</span>
-                    <span class="v254_333">@match.Status</span>
+
+                    @if (match.Status == "Đã hoàn thành")
+                    {
+                        <span class="v254_333">@match.Status</span>
+                    }
+                    else
+                    {
+                        <button class="btn-view" @onclick="() => ViewMatch(match)">Xem</button>
+                    }
                 </div>
             }
-        }
+        </div>
+
+
+        
     </div>
 
     <div class="v250_263">
@@ -118,7 +123,7 @@
     {
         var requestData = new TeamInfoRequest { TeamId = TeamId };
 
-        var response = await Http.PostAsJsonAsync("https://localhost:7000/api/teaminfo", requestData);
+        var response = await Http.PostAsJsonAsync("https:localhost:7000/api/teaminfo", requestData);
 
         if (response.IsSuccessStatusCode)
         {
@@ -144,6 +149,13 @@
         });
 
         await hubConnection.StartAsync();
+        //test data
+        // var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("data/teaminfo.json");
+        // if (teamInfo != null)
+        // {
+        //     UpdateTeamInfo(teamInfo);
+        // }
+
     }
 
     private void UpdateTeamInfo(TeamInfo teamInfo)
@@ -181,6 +193,7 @@
 
     public class Match
     {
+        public int Id { get; set; }
         public string Info { get; set; }
         public string Status { get; set; }
     }
@@ -191,5 +204,9 @@
         {
             await hubConnection.DisposeAsync();
         }
+    }
+    void ViewMatch(Match match)
+    {
+        Navigation.NavigateTo($"/match-info/{match.Id}");
     }
 }
