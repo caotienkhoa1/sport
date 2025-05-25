@@ -1,6 +1,7 @@
 ﻿@page "/find"
 @inject HttpClient Http
 @inject IJSRuntime JS
+@inject NavigationManager Navigation
 
 <div class="container-wrapper">
     <aside class="filter-sidebar">
@@ -39,6 +40,12 @@
                 <p class="no-results">Không tìm thấy đối thủ phù hợp.</p>
             }
         </div>
+        <div class="pagination">
+            <button @onclick="PreviousPage" disabled="@(!CanGoPrevious)">Trước</button>
+            <span>Trang @currentPage / @totalPages</span>
+            <button @onclick="NextPage" disabled="@(!CanGoNext)">Sau</button>
+        </div>
+
 
         @if (selectedOpponent != null)
         {
@@ -59,7 +66,11 @@
         }
     </section>
 </div>
+@code{
+    private bool CanGoPrevious => currentPage > 1;
+    private bool CanGoNext => currentPage < totalPages;
 
+}
 @code {
     private List<Opponent> opponents = new();
     private Opponent? selectedOpponent;
@@ -69,47 +80,45 @@
     private bool filterPickleball = true;
     private string searchName = "";
 
+    private int currentPage = 1;
+    private int totalPages = 1;
+    private int pageSize = 6;
+
     protected override async Task OnInitializedAsync()
     {
         await LoadOpponentsAsync();
     }
-    private bool FilterFootball
-    {
-        get => filterFootball;
-        set
-        {
-            if (filterFootball != value)
-            {
-                filterFootball = value;
-                OnFilterChanged();
-            }
-        }
-    }
+
     private async Task LoadOpponentsAsync()
     {
         try
         {
-            // Lấy token từ local storage hoặc nơi lưu token
             var token = await JS.InvokeAsync<string>("localStorage.getItem", "jwt_token");
 
             if (!string.IsNullOrEmpty(token))
             {
                 Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-                // Xây dựng query param filter
                 var sports = new List<string>();
                 if (filterFootball) sports.Add("Bóng đá");
                 if (filterBadminton) sports.Add("Cầu lông");
                 if (filterPickleball) sports.Add("Pickleball");
 
                 var querySports = string.Join(",", sports);
-                var url = $"/api/opponents?sports={Uri.EscapeDataString(querySports)}&name={Uri.EscapeDataString(searchName)}";
+                var url = $"/api/opponents?sports={Uri.EscapeDataString(querySports)}&name={Uri.EscapeDataString(searchName)}&page={currentPage}&pageSize={pageSize}";
 
-                opponents = await Http.GetFromJsonAsync<List<Opponent>>(url) ?? new List<Opponent>();
-            }
-            else
-            {
-                opponents = new List<Opponent>(); // Không có token
+                var response = await Http.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadFromJsonAsync<PagedResponse>();
+                    opponents = json?.Data ?? new List<Opponent>();
+                    totalPages = json?.TotalPages ?? 1;
+                }
+                else
+                {
+                    opponents = new List<Opponent>();
+                    totalPages = 1;
+                }
             }
         }
         catch (Exception ex)
@@ -117,26 +126,35 @@
             Console.WriteLine("Lỗi tải dữ liệu: " + ex.Message);
             opponents = new List<Opponent>();
         }
+
         StateHasChanged();
     }
 
-    private void SelectOpponent(Opponent opponent)
+    private async Task PreviousPage()
     {
-        selectedOpponent = opponent;
-        Console.WriteLine($"Đã chọn đối thủ: {opponent.FullName}");
+        if (currentPage > 1)
+        {
+            currentPage--;
+            await LoadOpponentsAsync();
+        }
     }
 
-    private void CloseModal()
+    private async Task NextPage()
     {
-        selectedOpponent = null;
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            await LoadOpponentsAsync();
+        }
     }
 
-    @inject NavigationManager Navigation
+    private void SelectOpponent(Opponent opponent) => selectedOpponent = opponent;
+
+    private void CloseModal() => selectedOpponent = null;
 
     private async Task ConfirmSelection()
     {
-        if (selectedOpponent == null)
-            return;
+        if (selectedOpponent == null) return;
 
         try
         {
@@ -148,16 +166,8 @@
                 var response = await Http.PostAsJsonAsync("/api/opponents/select", new { opponentId = selectedOpponent.Id });
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Xác nhận đối thủ thành công!");
-
-                    // Chuyển hướng sang trang matchsport với Id đối thủ
                     Navigation.NavigateTo($"/matchsport/{selectedOpponent.Id}");
-
                     selectedOpponent = null;
-                }
-                else
-                {
-                    Console.WriteLine("Xác nhận thất bại");
                 }
             }
         }
@@ -167,18 +177,16 @@
         }
     }
 
-
     private void OnFilterChanged(ChangeEventArgs? e = null)
     {
+        currentPage = 1;
         _ = LoadOpponentsAsync();
     }
 
-    private string GetAvatarUrl(Opponent opponent)
-    {
-        return opponent.Gender == "Nữ"
+    private string GetAvatarUrl(Opponent opponent) =>
+        opponent.Gender == "Nữ"
             ? "https://i.pravatar.cc/100?img=47"
             : "https://i.pravatar.cc/100?img=12";
-    }
 
     public class Opponent
     {
@@ -188,6 +196,12 @@
         public int Age { get; set; }
         public string Sport { get; set; } = "";
         public string Level { get; set; } = "";
+    }
+
+    public class PagedResponse
+    {
+        public List<Opponent> Data { get; set; } = new();
+        public int TotalPages { get; set; }
     }
 }
 
@@ -395,6 +409,35 @@
 
         .confirm-btn:hover {
             background-color: #218838;
+        }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        gap: 20px;
+    }
+
+        .pagination button {
+            padding: 6px 14px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .pagination button[disabled] {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+
+        .pagination span {
+            font-weight: bold;
+            font-size: 1.1rem;
         }
 
 </style>
