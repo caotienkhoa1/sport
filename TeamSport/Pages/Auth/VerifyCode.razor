@@ -3,11 +3,7 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
 
-@* <div class="logo-top-right">
-    <a href="/">
-        <img src="/img/logo 1.png" alt="Logo" />
-    </a>
-</div> *@
+
 
 <div class="register-container">
     <div class="left-side"></div>
@@ -57,6 +53,9 @@
     private CodeModel codeModel = new();
     private bool IsLoading = false;
     private string ErrorMessage;
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "email")]
+    public string Email { get; set; }
 
     private async Task HandleCodeSubmit()
     {
@@ -65,25 +64,16 @@
 
         try
         {
-            // Gửi mã code lên API xác thực (thay bằng URL thực tế)
-            var response = await Http.PostAsJsonAsync("https://api.example.com/api/auth/confirm-code", new { code = codeModel.Code });
+            var response = await Http.PostAsJsonAsync("https://localhost:7000/api/auth/confirm-code", new
+            {
+                email = Email,
+                code = codeModel.Code
+            });
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<ConfirmCodeResponse>();
-
-                if (!string.IsNullOrEmpty(result?.Token))
-                {
-                    // Lưu token JWT vào localStorage
-                    await JS.InvokeVoidAsync("localStorage.setItem", "jwtToken", result.Token);
-
-                    // Điều hướng đến trang chính (hoặc trang mong muốn)
-                    Navigation.NavigateTo("/");
-                }
-                else
-                {
-                    ErrorMessage = "Không nhận được token từ server.";
-                }
+                // Chuyển sang trang đổi mật khẩu nếu mã hợp lệ
+                Navigation.NavigateTo($"/new-password?email={Email}");
             }
             else
             {
@@ -101,13 +91,14 @@
         }
     }
 
+
     private async Task ResendCode()
     {
         ErrorMessage = null;
 
         try
         {
-            var response = await Http.PostAsync("https://api.example.com/api/auth/resend-code", null);
+            var response = await Http.PostAsJsonAsync("https://localhost:7000/api/auth/resend-code", new { email = Email });
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("Mã xác thực đã được gửi lại.");
@@ -125,6 +116,7 @@
 
     public class CodeModel
     {
+
         public string Code { get; set; } = "";
     }
 
@@ -149,7 +141,7 @@
     private async Task StartOAuthLogin(string provider)
     {
         // URL backend xử lý OAuth
-        string oauthUrl = $"https://api.example.com/api/auth/oauth/{provider}";
+        string oauthUrl = $"https://localhost:7000/api/auth/oauth/{provider}";
 
         // Mở popup login OAuth
         var jsCode = $@"
@@ -171,11 +163,10 @@
     [JSInvokable]
     public static async Task ReceiveOAuthToken(string token)
     {
-        // Lưu token vào localStorage hoặc làm gì đó
-        // Vì đây là static method, bạn có thể trigger event hoặc callback về instance của component nếu muốn
+        
         Console.WriteLine($"Received token: {token}");
 
-        // Ví dụ: gọi API lưu token, chuyển trang, v.v...
+        
     }
 }
 

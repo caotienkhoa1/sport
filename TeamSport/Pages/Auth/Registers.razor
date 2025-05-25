@@ -1,33 +1,71 @@
 ﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
 
-
 <div class="register-container">
     <div class="left-side"></div>
     <div class="right-side">
+
         <div>
             <div class="form-title">Đăng ký</div>
             <div class="form-subtitle">Cùng chúng tôi đăng ký tài khoản của bạn</div>
         </div>
 
         <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
             <div class="input-group">
-                <InputText class="input-name" placeholder="Họ" @bind-Value="user.LastName" />
-                <InputText class="input-name" placeholder="Tên" @bind-Value="user.FirstName" />
+                <div class="input-wrapper">
+                    <input class="input-name" placeholder="Họ" @bind="user.LastName" />
+                    <span class="error-popup">
+                        <ValidationMessage For="@(() => user.LastName)" />
+                    </span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input class="input-name" placeholder="Tên" @bind="user.FirstName" />
+                    <span class="error-popup">
+                        <ValidationMessage For="@(() => user.FirstName)" />
+                    </span>
+                </div>
             </div>
 
             <div class="input-group">
-                <InputText class="input-name" placeholder="Email" @bind-Value="user.Email" />
-                <InputText class="input-name" placeholder="Số điện thoại" @bind-Value="user.PhoneNumber" />
+                <div class="input-wrapper">
+                    <input class="input-name" placeholder="Email" @bind="user.Email" />
+                    <span class="error-popup">
+                        <ValidationMessage For="@(() => user.Email)" />
+                    </span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input class="input-name" placeholder="Số điện thoại" @bind="user.PhoneNumber" />
+                    <span class="error-popup">
+                        <ValidationMessage For="@(() => user.PhoneNumber)" />
+                    </span>
+                </div>
             </div>
 
-            <InputText class="single-input" placeholder="Mật khẩu" type="password" @bind-Value="user.Password" />
-            <InputText class="single-input" placeholder="Xác nhận mật khẩu" type="password" @bind-Value="confirmPassword" />
+            <div class="input-wrapper">
+                <input class="single-input" type="password" placeholder="Mật khẩu" @bind="user.Password" />
+                <span class="error-popup">
+                    <ValidationMessage For="@(() => user.Password)" />
+                </span>
+            </div>
+
+            <div class="input-wrapper">
+                <input class="single-input" type="password" placeholder="Xác nhận mật khẩu" @bind="confirmPassword" />
+                @if (!string.IsNullOrEmpty(confirmPassword) && user.Password != confirmPassword)
+                {
+                    <span class="error-popup">Mật khẩu xác nhận không khớp</span>
+                }
+            </div>
 
             <div class="terms-container">
-                <InputCheckbox @bind-Value="agreedTerms" />
+                <input type="checkbox" @bind="agreedTerms" />
                 <span>
                     Tôi đồng ý với tất cả các <span class="highlight-red">Điều khoản</span> và <span class="highlight-red">Chính sách bảo mật</span>
                 </span>
@@ -37,6 +75,8 @@
                 @(IsLoading ? "Đang xử lý..." : "Đăng ký")
             </button>
         </EditForm>
+
+
 
         @if (!string.IsNullOrEmpty(ErrorMessage))
         {
@@ -56,7 +96,7 @@
     private bool IsLoading = false;
     private string ErrorMessage;
 
-    // Thêm tham chiếu tới các input
+    
     private ElementReference lastNameRef;
     private ElementReference firstNameRef;
     private ElementReference emailRef;
@@ -68,7 +108,6 @@
     {
         ErrorMessage = null;
 
-        // Kiểm tra từng trường và focus vào trường lỗi đầu tiên
         if (string.IsNullOrWhiteSpace(user.LastName))
         {
             ErrorMessage = "Vui lòng nhập họ.";
@@ -124,7 +163,7 @@
                 password = user.Password
             };
 
-            var response = await Http.PostAsJsonAsync("https://api.example.com/api/auth/register", requestData);
+            var response = await Http.PostAsJsonAsync("https://localhost:7000/api/auth/register", requestData);
 
             if (response.IsSuccessStatusCode)
             {
@@ -157,10 +196,24 @@
 
     public class UserModel
     {
+        [Required(ErrorMessage = "Vui lòng nhập họ")]
         public string LastName { get; set; } = "";
+
+        [Required(ErrorMessage = "Vui lòng nhập tên")]
         public string FirstName { get; set; } = "";
+
+        [Required(ErrorMessage = "Vui lòng nhập email")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+        [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
         public string PhoneNumber { get; set; } = "";
+
+        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
+        [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{6,}$",
+            ErrorMessage = "Mật khẩu cần gồm chữ hoa, chữ thường, số và ký tự đặc biệt")]
         public string Password { get; set; } = "";
     }
 
@@ -304,5 +357,47 @@
         background-color: #fff;
     }
 
+    .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin-bottom: 1rem;
+        min-width: 310px;
+    }
+
+    .error-popup {
+        color: red;
+        font-size: 0.85rem;
+        margin-top: 4px;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .validation-errors {
+        display: none !important;
+    }
+
+
 </style>
 
+<script>
+    window.focusElement = function (element) {
+        if (element) {
+            element.focus();
+        }
+    };
+</script>

@@ -150,7 +150,7 @@
         try
         {
             var loginData = new { email = Email, password = Password };
-            var response = await Http.PostAsJsonAsync("https://api.example.com/api/auth/login", loginData);
+            var response = await Http.PostAsJsonAsync("https://localhost:7000/api/auth/login", loginData);
 
             if (response.IsSuccessStatusCode)
             {
@@ -170,7 +170,7 @@
 
     private async Task StartOAuthLogin(string provider)
     {
-        var oauthUrl = $"https://api.example.com/api/auth/oauth/{provider}";
+        var oauthUrl = $"https://localhost:7000/api/auth/oauth/{provider}";
         var jsCode = $@"
             var popup = window.open('{oauthUrl}', '_blank', 'width=600,height=700');
             window.addEventListener('message', function(e) {{

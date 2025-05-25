@@ -163,7 +163,7 @@
             {
                 Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-                var response = await Http.PostAsJsonAsync("/api/opponents/select", new { opponentId = selectedOpponent.Id });
+                var response = await Http.PostAsJsonAsync("https://localhost:7000/api/opponents/select", new { opponentId = selectedOpponent.Id });
                 if (response.IsSuccessStatusCode)
                 {
                     Navigation.NavigateTo($"/matchsport/{selectedOpponent.Id}");

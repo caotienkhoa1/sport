@@ -45,7 +45,7 @@
         }
 
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("https://your-api.com/matchhub"), options =>
+            .WithUrl(Navigation.ToAbsoluteUri("https://localhost:7000/matchhub"), options =>
             {
                 options.AccessTokenProvider = () => Task.FromResult(token);
             })

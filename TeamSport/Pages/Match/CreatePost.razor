@@ -41,7 +41,7 @@
                     <input type="number" class="form-input-box" min="1" @bind="postModel.MemberCount" required />
                 </div>
 
-                <div class="form-field-box">
+                @* <div class="form-field-box">
                     <span class="form-label-box">Giới tính :</span>
                     <select class="form-input-box" @bind="postModel.Gender" required>
                         <option value="">-- Chọn giới tính --</option>
@@ -49,7 +49,7 @@
                         <option value="Nữ">Nữ</option>
                         <option value="Khác">Khác</option>
                     </select>
-                </div>
+                </div> *@
 
                 <div class="form-field-box">
                     <span class="form-label-box">Thể thao :</span>
@@ -92,20 +92,26 @@
             </fieldset>
 
             <fieldset>
-                <legend>Sân bãi và thời gian </legend>
+                <legend> Thời gian </legend>
 
-                <div class="form-field-box">
+                @* <div class="form-field-box">
                     <span class="form-label-box">Sân :</span>
                     <input class="form-input-box" @bind="postModel.Field" required />
+                </div> *@
+
+                <div class="form-field-box">
+                    <span class="form-label-box">Thời gian bắt đầu :</span>
+                    <input class="form-input-box" type="datetime-local" @bind="postModel.StartTime" required />
                 </div>
 
                 <div class="form-field-box">
-                    <span class="form-label-box">Thời gian :</span>
-                    <input class="form-input-box" type="datetime-local" @bind="postModel.Time" required />
+                    <span class="form-label-box">Thời gian kết thúc :</span>
+                    <input class="form-input-box" type="datetime-local" @bind="postModel.EndTime" required />
                 </div>
+
             </fieldset>
 
-            <fieldset>
+            @* <fieldset>
                 <legend>Thanh toán</legend>
 
                 <div class="form-field-box">
@@ -137,7 +143,7 @@
                         <input class="form-input-box" type="number" min="0" @bind="postModel.Deposit" required />
                     </div>
                 }
-            </fieldset>
+            </fieldset> *@
 
             <div class="form-buttons">
                 <button type="submit" class="btn-submit" disabled="@IsSubmitting">
@@ -163,6 +169,21 @@
 
     private HubConnection? hubConnection;
 
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var userIdFromUrl = query["userId"];
+
+        if (!string.IsNullOrEmpty(userIdFromUrl))
+        {
+            postModel.UserId = userIdFromUrl;
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await SetupSignalR();
@@ -171,7 +192,7 @@
     private async Task SetupSignalR()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://yourapi.com/hubs/notifications", options =>
+            .WithUrl("https://localhost:7000/hubs/notifications", options =>
             {
                 options.AccessTokenProvider = async () =>
                 {
@@ -187,7 +208,6 @@
             NotificationMessage = message;
             StateHasChanged();
 
-            // Tự ẩn sau 5 giây
             _ = Task.Run(async () =>
             {
                 await Task.Delay(5000);
@@ -211,7 +231,6 @@
         var newMethod = e.Value?.ToString() ?? "";
         postModel.PaymentMethod = newMethod;
 
-        // Reset dữ liệu không phù hợp
         if (newMethod == "Trả trước")
         {
             postModel.Deposit = null;
@@ -248,11 +267,10 @@
             Http.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            var response = await Http.PostAsJsonAsync("https://yourapi.com/api/posts", postModel);
+            var response = await Http.PostAsJsonAsync("https://localhost:7000/api/posts", postModel);
 
             if (response.IsSuccessStatusCode)
             {
-                // Gửi notification realtime
                 if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
                 {
                     await hubConnection.SendAsync("SendNotification", $"Bài đăng của đội {postModel.FullName} đã được tạo!");
@@ -279,45 +297,36 @@
 
     public class PostModel
     {
-       
+        public string UserId { get; set; } = "";  // Thêm UserId
+
         public string FullName { get; set; } = "";
 
         public string TeamLeader { get; set; } = "";
 
-        
         public int MemberCount { get; set; } = 1;
 
-       
         public string Gender { get; set; } = "";
 
-        
         public string Sport { get; set; } = "";
 
-       
         public string Level { get; set; } = "";
 
-        
         public string Address { get; set; } = "";
 
-      
         public string Phone { get; set; } = "";
 
-      
         public string Email { get; set; } = "";
 
-  
         public string Field { get; set; } = "";
 
+        public DateTime? StartTime { get; set; } = null;
+        public DateTime? EndTime { get; set; } = null;
 
-        public DateTime? Time { get; set; } = null;
 
-       
         public string PaymentMethod { get; set; } = "";
 
-        // Bank bắt buộc khi trả trước
         public string Bank { get; set; } = "";
 
-        // Deposit bắt buộc khi trả sau
         public int? Deposit { get; set; }
     }
 
@@ -329,6 +338,7 @@
         }
     }
 }
+
 
 <style>
     fieldset {

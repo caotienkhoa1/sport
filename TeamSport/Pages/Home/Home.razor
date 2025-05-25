@@ -3,7 +3,6 @@
 @inject NavigationManager NavigationManager
 
 <div class="home-background">
-    
     <div class="home-content">
         <h1>TÌM ĐỐI THỦ CỦA BẠN</h1>
         <div class="button-group">
@@ -11,33 +10,74 @@
             <button class="btn btn-success" @onclick="NavigateToFind">Tìm</button>
         </div>
     </div>
-    
 </div>
 
-
 @code {
-    void NavigateToCreate() => NavigationManager.NavigateTo("/create-post");
-    void NavigateToFind() => NavigationManager.NavigateTo("/find");
-
-}
-@code {
-    private bool isLoggedIn = false;
+    private string userId;
 
     protected override async Task OnInitializedAsync()
     {
-        var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        var token = await JS.InvokeAsync<string>("localStorage.getItem", "jwt_token");
 
         if (string.IsNullOrEmpty(token))
         {
-            // Nếu không có token => chuyển về trang đăng nhập
             NavigationManager.NavigateTo("/login", forceLoad: true);
+            return;
         }
+
+        var payload = GetPayloadFromToken(token);
+        userId = payload?.Sub;
+    }
+
+    void NavigateToCreate()
+    {
+        if (!string.IsNullOrEmpty(userId))
+            NavigationManager.NavigateTo($"/create-post?userId={userId}");
         else
+            NavigationManager.NavigateTo("/create-post");
+    }
+
+    void NavigateToFind()
+    {
+        if (!string.IsNullOrEmpty(userId))
+            NavigationManager.NavigateTo($"/find?userId={userId}");
+        else
+            NavigationManager.NavigateTo("/find");
+    }
+
+    record JwtPayload
+    {
+        public string Sub { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
+    }
+
+    string DecodeBase64(string base64)
+    {
+        base64 = base64.Replace('-', '+').Replace('_', '/');
+        switch (base64.Length % 4)
         {
-            isLoggedIn = true;
+            case 2: base64 += "=="; break;
+            case 3: base64 += "="; break;
         }
+
+        var bytes = Convert.FromBase64String(base64);
+        return System.Text.Encoding.UTF8.GetString(bytes);
+    }
+
+    JwtPayload GetPayloadFromToken(string token)
+    {
+        if (string.IsNullOrEmpty(token)) return null;
+
+        var parts = token.Split('.');
+        if (parts.Length != 3) return null;
+
+        var payloadJson = DecodeBase64(parts[1]);
+        return System.Text.Json.JsonSerializer.Deserialize<JwtPayload>(payloadJson);
     }
 }
+
 
 
 

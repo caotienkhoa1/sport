@@ -92,22 +92,22 @@
     private Match? CurrentMatch;
 
     private HubConnection hubConnection;
-    private bool showConfirmPopup = false; // Biến điều khiển popup
+    private bool showConfirmPopup = false; 
     private OpponentInfo? CurrentOpponent;
 
     protected override async Task OnInitializedAsync()
     {
-        // Load thông tin đội chính
-        var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("api/teaminfo");
+        
+        var teamInfo = await Http.GetFromJsonAsync<TeamInfo>("https://localhost:7000/api/teaminfo");
         if (teamInfo != null)
         {
             UpdateTeamInfo(teamInfo);
         }
 
-        // Load thông tin đối thủ nếu OpponentId > 0
+        
         if (OpponentId > 0)
         {
-            CurrentOpponent = await Http.GetFromJsonAsync<OpponentInfo>($"api/opponent/{OpponentId}");
+            CurrentOpponent = await Http.GetFromJsonAsync<OpponentInfo>($"https://localhost:7000/api/opponent/{OpponentId}");
         }
 
         // Khởi tạo hub connection và đăng ký sự kiện
@@ -158,7 +158,7 @@
 
         if (!string.IsNullOrEmpty(token))
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://api.example.com/api/match/request");
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7000/api/match/request");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var response = await Http.SendAsync(request);
@@ -184,7 +184,7 @@
 
         if (!string.IsNullOrEmpty(token))
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://api.example.com/api/match/cancel");
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7000/api/match/cancel");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var response = await Http.SendAsync(request);
